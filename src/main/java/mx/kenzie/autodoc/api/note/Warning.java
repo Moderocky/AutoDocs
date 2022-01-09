@@ -14,14 +14,20 @@ import java.lang.annotation.*;
 @Repeatable(Warning.Multiple.class)
 public @interface Warning {
     
+    @Ignore
     String value();
     
+    @Description("""
+        The display schema to use when parsing this content.
+        """)
     DisplayMode mode() default DisplayMode.MARKDOWN;
     
+    @Ignore
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR})
     @interface Multiple {
-        
+    
+        @Ignore
         Warning[] value();
         
     }

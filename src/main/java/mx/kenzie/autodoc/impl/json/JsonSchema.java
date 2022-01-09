@@ -2,6 +2,7 @@ package mx.kenzie.autodoc.impl.json;
 
 import mx.kenzie.autodoc.api.controller.Element;
 import mx.kenzie.autodoc.api.schema.OutputSchema;
+import mx.kenzie.autodoc.api.schema.WritableElement;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,6 +21,15 @@ public class JsonSchema implements OutputSchema {
     }
     
     @Override
+    public boolean write(OutputStream target, WritableElement... elements)
+        throws IOException {
+        for (final WritableElement element : elements) {
+            if (element instanceof Element thing)
+                this.write(target, thing);
+        }
+        return true;
+    }
+    
     public boolean write(OutputStream target, Element element)
         throws IOException {
         target.write('{');

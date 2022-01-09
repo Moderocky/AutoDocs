@@ -33,6 +33,7 @@ public class ClassWriter implements WritableElement, Element {
     
     @Override
     public void write(OutputStream stream) throws IOException {
+        if (Utils.ignore(target)) return;
         this.write(stream, "<section id=\"");
         this.write(stream, "class:" + this.target.getSimpleName());
         this.write(stream, "\">");

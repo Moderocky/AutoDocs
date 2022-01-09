@@ -28,4 +28,17 @@ public class AssumptionTest {
         } instanceof Annotation;
     }
     
+    @Test
+    public void naming() {
+        System.out.println(Blob.class.getName());
+        System.out.println(Blob.class.getPackageName());
+        System.out.println(Blob.class.getSimpleName());
+        System.out.println(Blob.class.getCanonicalName());
+        System.out.println(Blob.class.getTypeName());
+    }
+    
+    public class Blob {
+    
+    }
+    
 }

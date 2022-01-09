@@ -6,21 +6,22 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public record PageWriter(String title, String description, String[] metas, String[] scripts,
+public record PageWriter(Class<?> root, WebsiteDetails details, String title, String description, String[] metas, String[] scripts,
                          String[] keywords) {
     
-    public PageWriter(String title, String description,
+    public PageWriter(Class<?> root, WebsiteDetails details, String title, String description,
                       String... keywords) {
-        this(title, description, new String[0], new String[0], keywords);
+        this(root, details, title, description, new String[0], new String[0], keywords);
     }
     
     public boolean write(OutputStream target, WritableElement... elements) throws IOException {
         this.writeHeader(target);
-        this.writeGap(target); // todo
+//        this.writeGap(target); // todo
         this.write(target, """
             
             <main id="body" class="container">
             """);
+        this.writeNavbar(target);
         for (final WritableElement element : elements) {
             element.write(target);
         }
@@ -30,6 +31,49 @@ public record PageWriter(String title, String description, String[] metas, Strin
             """);
         this.writeFooter(target);
         return true;
+    }
+    
+    private void writeNavbar(OutputStream target) throws IOException {
+        this.write(target, "<div class=\"row\">");
+        this.write(target, "<div class=\"col-lg-12 indigo-900\">");
+        this.write(target, "<div class=\"col-lg-12 flex-md-row mt-4 mb-4 p-4 border rounded shadow-sm h-md-250 position-relative\">");
+        this.write(target, "<a class=\"navbar-brand text-dark mr-4\" href=\"" + Utils.getTopPath(root) + "\">");
+        this.write(target, details.title());
+        this.write(target, "</a>");
+        this.writeBreadcrumbs(target);
+        this.write(target, "</div>");
+        this.write(target, "</div>");
+        this.write(target, "</div>");
+    }
+    
+    private void writeBreadcrumbs(OutputStream target) throws IOException {
+        this.write(target, "<div class=\"navbar-collapse offcanvas-collapse\">");
+        this.write(target, "<nav class=\"navbar navbar-expand-lg\">");
+        this.write(target, "<ol class=\"breadcrumb navbar-nav me-auto mb-2 mb-lg-0\">");
+        this.writeBreadcrumbPieces(target);
+        this.write(target, "<li class=\"breadcrumb-item active\" aria-current=\"page\">");
+        this.write(target, Utils.getPrettyName(root));
+        this.write(target, "</li>");
+        this.write(target, "</ol>");
+        this.write(target, "</nav>");
+        this.write(target, "</div>");
+    }
+    
+    private void writeBreadcrumbPieces(OutputStream target) throws IOException {
+        StringBuilder url = new StringBuilder(Utils.getTopPath(root));
+        String part;
+        String name = root.getPackageName();
+        int index;
+        while ((index = name.indexOf('.')) > -1) {
+            part = name.substring(0, index);
+            name = name.substring(index+1);
+            url.append(part).append("/");
+            this.write(target, "<li class=\"breadcrumb-item\">");
+            this.write(target, "<a href=\"" + url + "\">");
+            this.write(target, part);
+            this.write(target, "</a>");
+            this.write(target, "</li>");
+        }
     }
     
     private void writeHeader(OutputStream target) throws IOException {
@@ -51,7 +95,7 @@ public record PageWriter(String title, String description, String[] metas, Strin
         this.write(target, title);
         this.write(target, """
             </title>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github-dark.min.css" crossorigin="anonymous">
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css" rel="stylesheet" crossorigin="anonymous">""");
         for (final String meta : metas) {

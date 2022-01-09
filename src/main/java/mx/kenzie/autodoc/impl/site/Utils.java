@@ -2,14 +2,17 @@ package mx.kenzie.autodoc.impl.site;
 
 import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.note.Example;
+import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.autodoc.api.note.Warning;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
+import java.io.File;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Modifier;
 
+@Ignore
 class Utils {
     
     static String hierarchyLabel(Class<?> type) {
@@ -54,6 +57,10 @@ class Utils {
         if ((modifiers & 0x00000040) != 0)
             builder.append("<span class=\"badge bg-danger\">bridge</span> ");
         return builder.toString();
+    }
+    
+    static boolean ignore(AnnotatedElement target) {
+        return target.isAnnotationPresent(Ignore.class);
     }
     
     static String getDescription(AnnotatedElement target) {
@@ -132,6 +139,40 @@ class Utils {
                 case HTML -> warning.value();
                 case OTHER -> Utils.escapeHTML(warning.value());
             } + "</div>";
+    }
+    
+    static String getTopURL(Class<?> from) {
+        return getTopPath(from) + "index.html";
+    }
+    
+    static String getTopPath(Class<?> from) {
+        final StringBuilder builder = new StringBuilder();
+        String string = from.getName();
+        int index;
+        while ((index = string.lastIndexOf('.')) > -1) {
+            string = string.substring(0, index);
+            builder.append("../");
+        }
+        return builder.toString();
+    }
+    
+    static String getURL(Class<?> from, Class<?> to) {
+        if (to.getPackageName().equals(from.getPackageName())) return getFileName(to);
+        return getTopPath(from) + getFilePath(to);
+    }
+    
+    static String getFilePath(Class<?> type) {
+        return type.getName().replace('.', File.separatorChar) + ".html";
+    }
+    
+    static String getFileName(Class<?> type) {
+        final String name = type.getName();
+        return name.substring(name.lastIndexOf('.')+1) + ".html";
+    }
+    
+    static String getPrettyName(Class<?> type) {
+        final String name = type.getName();
+        return name.substring(name.lastIndexOf('.')+1).replace('$', '.');
     }
     
 }

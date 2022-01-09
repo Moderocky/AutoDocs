@@ -5,15 +5,17 @@ import mx.kenzie.autodoc.api.note.Example;
 import mx.kenzie.autodoc.api.note.Warning;
 import mx.kenzie.autodoc.impl.site.ClassWriter;
 import mx.kenzie.autodoc.impl.site.PageWriter;
+import mx.kenzie.autodoc.impl.site.WebsiteDetails;
 import org.junit.Test;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class WebsiteTest {
     
     @Test
     public void generate() throws Throwable {
-        final PageWriter writer = new PageWriter("My Title", "Cool description", "hello", "there");
+        final PageWriter writer = new PageWriter(Blob.class, new WebsiteDetails("hello", new ArrayList<>()), "My Title", "Cool description", "hello", "there");
         final FileOutputStream stream = new FileOutputStream("target/test.html");
         writer.write(stream, new ClassWriter(Blob.class), new ClassWriter(Bean.class), new ClassWriter(Blob.Foo.class));
     }

@@ -28,6 +28,7 @@ public class FieldWriter implements WritableElement, Element {
     
     @Override
     public void write(OutputStream stream) throws IOException {
+        if (Utils.ignore(target)) return;
         this.write(stream, "<section id=\"field:" + this.target.getName() + "\">");
         this.write(stream, """
             <div class="row mb-2">

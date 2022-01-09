@@ -12,14 +12,21 @@ import java.lang.annotation.*;
 @Repeatable(Example.Multiple.class)
 public @interface Example {
     
+    @Ignore
     String value();
     
+    @Description("""
+        The `highlight.js` language key name to use in generation.
+        This is typically used by markdown parsers, but should be transferrable to other formats.
+        """)
     String language() default "java";
     
+    @Ignore
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR})
     @interface Multiple {
-        
+    
+        @Ignore
         Example[] value();
         
     }
