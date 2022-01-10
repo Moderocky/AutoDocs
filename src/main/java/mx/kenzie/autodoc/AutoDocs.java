@@ -1,9 +1,8 @@
 package mx.kenzie.autodoc;
 
 import mx.kenzie.autodoc.api.context.Context;
-import mx.kenzie.autodoc.impl.site.ClassWriter;
-import mx.kenzie.autodoc.impl.site.PageWriter;
-import mx.kenzie.autodoc.impl.site.WebsiteDetails;
+import mx.kenzie.autodoc.api.note.Ignore;
+import mx.kenzie.autodoc.impl.site.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,9 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.security.CodeSource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -101,10 +98,43 @@ public class AutoDocs {
                 writer.write(stream, new ClassWriter(type));
             }
         }
+        final Set<String> directories = new HashSet<>();
+        for (final Class<?> type : classes) {
+            addPackages(type, directories);
+        }
+        for (final String directory : directories) {
+            final File folder = new File(output, directory.replace('.', File.separatorChar));
+            if (!folder.exists() || !folder.isDirectory()) continue;
+            final File index = new File(folder, "index.html");
+            if (!index.exists()) index.createNewFile();
+            final List<Class<?>> list = filterClasses(directory, classes);
+            final IndexPageWriter writer = new IndexPageWriter(directory,
+                new WebsiteDetails(title, Arrays.asList(classes)),
+                "Index of " + directory,
+                "Documentation for this class and its members.",
+                directory);
+            try (final FileOutputStream stream = new FileOutputStream(index)) {
+                writer.write(stream, new ClassIndexWriter(directory, list));
+            }
+        }
     }
     
-    public void generate(final OutputStream stream, final Context context) {
+    private static List<Class<?>> filterClasses(String namespace, Class<?>... classes) {
+        final List<Class<?>> list = new ArrayList<>();
+        for (final Class<?> type : classes) {
+            if (type.isAnnotationPresent(Ignore.class)) continue;
+            if (type.getPackageName().startsWith(namespace)) list.add(type);
+        }
+        return list;
+    }
     
+    private static void addPackages(Class<?> type, Set<String> directories) {
+        String string = type.getName();
+        int index;
+        while ((index = string.lastIndexOf('.')) > -1) {
+            string = string.substring(0, index);
+            directories.add(string);
+        }
     }
     
 }

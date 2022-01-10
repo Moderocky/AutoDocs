@@ -8,12 +8,9 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
-public class ClassWriter implements WritableElement, Element {
+public class ClassWriter implements WritableElement, Element, ElementWriter {
     
     protected final Class<?> target;
     
@@ -34,38 +31,36 @@ public class ClassWriter implements WritableElement, Element {
     @Override
     public void write(OutputStream stream) throws IOException {
         if (Utils.ignore(target)) return;
-        this.write(stream, "<section id=\"");
-        this.write(stream, "class:" + this.target.getSimpleName());
+        this.write(stream, "\n<section id=\"");
+        this.write(stream, Utils.getId(target));
         this.write(stream, "\">");
-        this.write(stream, """
+        if (Utils.hasLongExamples(target)) {
+            this.write(stream, """
+            <div class="row mb-2">
+            <div class="col col-lg-6 col-sm-12">""");
+        } else {
+            this.write(stream, """
             <div class="row mb-2">
             <div class="col col-lg-8 col-sm-12">""");
-        this.write(stream, """
-            <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-              <div class="col col-lg-8 col-sm-12 p-4 d-flex flex-column position-static">""");
-        this.write(stream, "<h3 class=\"mb-0\">");
+        }
+        this.startBlock(stream);
+        this.write(stream, "\n<h3 class=\"mb-0\">");
         this.write(stream, this.createTitle(target));
         this.write(stream, "</h3>");
         this.writeType(stream);
         this.write(stream, Utils.getWarnings(target));
-        this.write(stream, "<p class=\"card-text mb-auto\">");
         this.write(stream, Utils.getDescription(target));
-        this.write(stream, "</p>");
-        this.write(stream, "</div>");
-        this.write(stream, "<div class=\"col-lg-4 col-sm-12\">");
+        this.write(stream, "\n</div>");
+        this.write(stream, "\n<div class=\"col-lg-4 col-sm-12\">");
         this.writeSupers(stream);
-        this.write(stream, "<div class=\"my-3 p-3 bg-body rounded shadow-sm\">");
-        this.write(stream, "<h6 class=\"border-bottom pb-2 mb-0\">Modifiers</h6>");
-        this.write(stream, "<p class=\"pb-3 mb-0 small lh-sm\">");
-        this.write(stream, Utils.createModifiers(target.getModifiers()));
-        this.write(stream, "</p>");
-        this.write(stream, "</div>");
-        this.write(stream, "</div>");
-        this.write(stream, "</div>");
-        this.write(stream, "</div>");
+        new RightTextDetail("Modifiers", Utils.createModifiers(target.getModifiers()))
+            .printTo(stream);
+        this.write(stream, "\n</div>");
+        this.write(stream, "\n</div>");
+        this.endBlock(stream);
         this.write(stream, Utils.getExamples(target));
-        this.write(stream, "</div>");
-        this.write(stream, "</section>");
+        this.write(stream, "\n</div>");
+        this.write(stream, "\n</section>");
         this.writeFields(stream);
         this.writeMethods(stream);
     }
@@ -73,7 +68,7 @@ public class ClassWriter implements WritableElement, Element {
     protected void writeSupers(OutputStream stream) throws IOException {
         final Class<?>[] interfaces = target.getInterfaces();
         if (interfaces.length > 0 || target.getSuperclass() != null) {
-            this.write(stream, "<div class=\"my-3 p-3 bg-body rounded shadow-sm\">");
+            this.write(stream, "<div class=\"col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm\">");
             if (!target.isInterface() && !target.isAnnotation()) {
                 this.write(stream, "<h6 class=\"border-bottom pb-2 mb-0\">Extends</h6>");
                 this.write(stream, "<p class=\"pb-3 mb-0 small lh-sm\">");
@@ -93,10 +88,7 @@ public class ClassWriter implements WritableElement, Element {
     }
     
     protected void writeFields(OutputStream stream) throws IOException {
-        final List<Field> list = new ArrayList<>(Arrays.asList(this.target.getDeclaredFields()));
-        list.removeIf(field -> Modifier.isPrivate(field.getModifiers()));
-        list.removeIf(Field::isSynthetic);
-        final Field[] fields = list.toArray(new Field[0]);
+        final Field[] fields = Utils.getFields(target).toArray(new Field[0]);
         if (fields.length > 0) {
             this.write(stream, "<h2 class=\"border-bottom pb-2 mb-0\">Fields</h2>");
             this.write(stream, "<br />");
@@ -110,9 +102,7 @@ public class ClassWriter implements WritableElement, Element {
     }
     
     protected void writeMethods(OutputStream stream) throws IOException {
-        final List<Method> list = new ArrayList<>(Arrays.asList(this.target.getDeclaredMethods()));
-        list.removeIf(method -> Modifier.isPrivate(method.getModifiers()));
-        final Method[] methods = list.toArray(new Method[0]);
+        final Method[] methods = Utils.getMethods(target).toArray(new Method[0]);
         if (methods.length > 0) {
             this.write(stream, "<h2 class=\"border-bottom pb-2 mb-0\">Methods</h2>");
             this.write(stream, "<br />");
@@ -120,7 +110,6 @@ public class ClassWriter implements WritableElement, Element {
                 final MethodWriter writer = new MethodWriter(method);
                 writer.write(stream);
             }
-            this.write(stream, "<hr />");
             this.write(stream, "<br />");
         }
     }

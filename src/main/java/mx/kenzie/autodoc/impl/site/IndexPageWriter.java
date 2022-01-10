@@ -9,17 +9,16 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public record PageWriter(Class<?> root, WebsiteDetails details, String title, String description, String[] metas, String[] scripts,
-                         String[] keywords) {
+public record IndexPageWriter(String root, WebsiteDetails details, String title, String description, String[] metas, String[] scripts,
+                              String[] keywords) {
     
-    public PageWriter(Class<?> root, WebsiteDetails details, String title, String description,
-                      String... keywords) {
+    public IndexPageWriter(String root, WebsiteDetails details, String title, String description,
+                           String... keywords) {
         this(root, details, title, description, new String[0], new String[0], keywords);
     }
     
     public boolean write(OutputStream target, WritableElement... elements) throws IOException {
         this.writeHeader(target);
-//        this.writeGap(target); // todo
         this.write(target, """
             
             <main id="body" class="container">
@@ -49,44 +48,12 @@ public record PageWriter(Class<?> root, WebsiteDetails details, String title, St
             this.writeBreadcrumbs(target);
             this.write(target, "</div>");
             this.write(target, "<div class=\"col-md-4 col-sm-12\">");
-            this.writeFieldMenu(target);
-            this.writeMethodMenu(target);
             this.write(target, "</div>");
             this.write(target, "</div>");
         }
         this.write(target, "</div>");
         this.write(target, "</div>");
         this.write(target, "</div>");
-    }
-    
-    private void writeFieldMenu(OutputStream stream) throws IOException {
-        final List<Field> list = Utils.getFields(root);
-        if (list.size() < 1) return;
-        this.write(stream, "\n<div class=\"dropdown\">");
-        this.write(stream, "\n<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"fieldMenu\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Fields</button>");
-        this.write(stream, "\n<ul class=\"dropdown-menu\" aria-labelledby=\"fieldMenu\">");
-        for (final Field field : list) {
-            this.write(stream, "<li>");
-            this.write(stream, "<a class=\"dropdown-item\" href=\"#" + Utils.getId(field) + "\">" + field.getName() + "</a>");
-            this.write(stream, "</li>");
-        }
-        this.write(stream, "\n</ul>");
-        this.write(stream, "\n</div>");
-    }
-    
-    private void writeMethodMenu(OutputStream stream) throws IOException {
-        final List<Method> list = Utils.getMethods(root);
-        if (list.size() < 1) return;
-        this.write(stream, "\n<div class=\"dropdown\">");
-        this.write(stream, "\n<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"methodMenu\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Methods</button>");
-        this.write(stream, "\n<ul class=\"dropdown-menu\" aria-labelledby=\"methodMenu\">");
-        for (final Method method : list) {
-            this.write(stream, "<li>");
-            this.write(stream, "<a class=\"dropdown-item\" href=\"#" + Utils.getId(method) + "\">" + method.getName() + "</a>");
-            this.write(stream, "</li>");
-        }
-        this.write(stream, "\n</ul>");
-        this.write(stream, "\n</div>");
     }
     
     private void writeBreadcrumbs(OutputStream target) throws IOException {
@@ -94,9 +61,6 @@ public record PageWriter(Class<?> root, WebsiteDetails details, String title, St
         this.write(target, "<nav class=\"navbar navbar-expand-lg\">");
         this.write(target, "<ol class=\"breadcrumb navbar-nav me-auto mb-2 mb-lg-0\">");
         this.writeBreadcrumbPieces(target);
-        this.write(target, "<li class=\"breadcrumb-item active\" aria-current=\"page\">");
-        this.write(target, Utils.getPrettyName(root));
-        this.write(target, "</li>");
         this.write(target, "</ol>");
         this.write(target, "</nav>");
         this.write(target, "</div>");
@@ -105,7 +69,7 @@ public record PageWriter(Class<?> root, WebsiteDetails details, String title, St
     private void writeBreadcrumbPieces(OutputStream target) throws IOException {
         StringBuilder url = new StringBuilder(Utils.getTopPath(root));
         String part;
-        String name = root.getPackageName();
+        String name = root;
         int index;
         while ((index = name.indexOf('.')) > -1) {
             part = name.substring(0, index);

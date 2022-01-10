@@ -10,7 +10,12 @@ import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.io.File;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Ignore
 class Utils {
@@ -96,9 +101,31 @@ class Utils {
         return builder.toString();
     }
     
+    private static boolean isLong(Example example) {
+        for (final String line : example.value().lines().toList()) {
+            if (line.length() < 50) continue;
+            return true;
+        }
+        return false;
+    }
+    
+    static boolean hasLongExamples(AnnotatedElement target) {
+        if (!target.isAnnotationPresent(Example.class) && !target.isAnnotationPresent(Example.Multiple.class)) return false;
+        final Example example = target.getDeclaredAnnotation(Example.class);
+        if (example != null) return isLong(example);
+        final Example.Multiple multiple = target.getDeclaredAnnotation(Example.Multiple.class);
+        if (multiple != null) {
+            for (final Example sub : multiple.value()) {
+                if (isLong(sub)) return true;
+            }
+        }
+        return false;
+    }
+    
     static String getExamples(AnnotatedElement target) {
         final StringBuilder builder = new StringBuilder();
-        builder.append("<div class=\"col col-lg-4 col-sm-12\">");
+        if (hasLongExamples(target)) builder.append("<div class=\"col col-lg-6 col-sm-12\">");
+        else builder.append("<div class=\"col col-lg-4 col-sm-12\">");
         final Example example = target.getDeclaredAnnotation(Example.class);
         if (example != null)
             builder.append(getExample(example));
@@ -132,6 +159,36 @@ class Utils {
         return builder.toString();
     }
     
+    static String getId(AnnotatedElement element) {
+        if (element == null) return "";
+        if (element instanceof Method method) {
+            return "method:" + method.getName() + "(" + method.getParameterCount() + ")";
+        } else if (element instanceof Field field) {
+            return "field:" + field.getName();
+        } else if (element instanceof Class<?> thing) {
+            return "class:" + thing.getSimpleName();
+        } else {
+            return "unknown:" + element.hashCode();
+        }
+    }
+    
+    static List<Field> getFields(Class<?> type) {
+        if (type == null) return new ArrayList<>();
+        final List<Field> list = new ArrayList<>(Arrays.asList(type.getDeclaredFields()));
+        list.removeIf(field -> Modifier.isPrivate(field.getModifiers()));
+        list.removeIf(field -> field.isAnnotationPresent(Ignore.class));
+        list.removeIf(Field::isSynthetic);
+        return list;
+    }
+    
+    static List<Method> getMethods(Class<?> type) {
+        if (type == null) return new ArrayList<>();
+        final List<Method> list = new ArrayList<>(Arrays.asList(type.getDeclaredMethods()));
+        list.removeIf(method -> Modifier.isPrivate(method.getModifiers()));
+        list.removeIf(method -> method.isAnnotationPresent(Ignore.class));
+        return list;
+    }
+    
     private static String getWarning(Warning warning) {
         return "<div class=\"alert bg-danger text-light\">" +
             switch (warning.mode()) {
@@ -149,6 +206,17 @@ class Utils {
         final StringBuilder builder = new StringBuilder();
         String string = from.getName();
         int index;
+        while ((index = string.lastIndexOf('.')) > -1) {
+            string = string.substring(0, index);
+            builder.append("../");
+        }
+        return builder.toString();
+    }
+    
+    static String getTopPath(String string) {
+        final StringBuilder builder = new StringBuilder();
+        int index;
+        builder.append("../");
         while ((index = string.lastIndexOf('.')) > -1) {
             string = string.substring(0, index);
             builder.append("../");

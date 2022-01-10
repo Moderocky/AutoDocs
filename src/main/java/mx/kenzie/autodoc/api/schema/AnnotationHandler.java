@@ -31,7 +31,7 @@ public interface AnnotationHandler {
         Determines whether this handler can process the given annotation.
         This can be used as a type (or multi-type check.)
         
-        If this passes, the [parse](#method:parse) method will be called.
+        If this passes, the [parse](#method:parse(2)) method will be called.
         """)
     @Example("""
         public boolean accepts(Annotation annotation) {
