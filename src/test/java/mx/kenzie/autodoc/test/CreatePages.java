@@ -9,8 +9,8 @@ public class CreatePages {
     
     public static void main(String[] args) throws IOException {
         AutoDocs.generateDocumentation("AutoDocs", """
-            The modern, clean and adaptable documentation generator.
-            """,
+                The modern, clean and adaptable documentation generator.
+                """,
             """
                 ## AutoDocs
                 

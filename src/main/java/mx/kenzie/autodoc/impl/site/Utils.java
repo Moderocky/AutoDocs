@@ -101,27 +101,6 @@ class Utils {
         return builder.toString();
     }
     
-    private static boolean isLong(Example example) {
-        for (final String line : example.value().lines().toList()) {
-            if (line.length() < 50) continue;
-            return true;
-        }
-        return false;
-    }
-    
-    static boolean hasLongExamples(AnnotatedElement target) {
-        if (!target.isAnnotationPresent(Example.class) && !target.isAnnotationPresent(Example.Multiple.class)) return false;
-        final Example example = target.getDeclaredAnnotation(Example.class);
-        if (example != null) return isLong(example);
-        final Example.Multiple multiple = target.getDeclaredAnnotation(Example.Multiple.class);
-        if (multiple != null) {
-            for (final Example sub : multiple.value()) {
-                if (isLong(sub)) return true;
-            }
-        }
-        return false;
-    }
-    
     static String getExamples(AnnotatedElement target) {
         final StringBuilder builder = new StringBuilder();
         if (hasLongExamples(target)) builder.append("<div class=\"col col-lg-6 col-sm-12\">");
@@ -139,8 +118,30 @@ class Utils {
         return builder.toString();
     }
     
+    static boolean hasLongExamples(AnnotatedElement target) {
+        if (!target.isAnnotationPresent(Example.class) && !target.isAnnotationPresent(Example.Multiple.class))
+            return false;
+        final Example example = target.getDeclaredAnnotation(Example.class);
+        if (example != null) return isLong(example);
+        final Example.Multiple multiple = target.getDeclaredAnnotation(Example.Multiple.class);
+        if (multiple != null) {
+            for (final Example sub : multiple.value()) {
+                if (isLong(sub)) return true;
+            }
+        }
+        return false;
+    }
+    
     private static String getExample(Example example) {
         return "<div class=\"rounded bg-dark text-light\">" + markDown("```" + example.language() + "\n" + example.value() + "\n```") + "</div>";
+    }
+    
+    private static boolean isLong(Example example) {
+        for (final String line : example.value().lines().toList()) {
+            if (line.length() < 50) continue;
+            return true;
+        }
+        return false;
     }
     
     static String getWarnings(AnnotatedElement target) {
@@ -157,6 +158,15 @@ class Utils {
         }
         builder.append("</div>");
         return builder.toString();
+    }
+    
+    private static String getWarning(Warning warning) {
+        return "<div class=\"alert bg-danger text-light\">" +
+            switch (warning.mode()) {
+                case MARKDOWN -> Utils.markDown(warning.value());
+                case HTML -> warning.value();
+                case OTHER -> Utils.escapeHTML(warning.value());
+            } + "</div>";
     }
     
     static String getId(AnnotatedElement element) {
@@ -187,15 +197,6 @@ class Utils {
         list.removeIf(method -> Modifier.isPrivate(method.getModifiers()));
         list.removeIf(method -> method.isAnnotationPresent(Ignore.class));
         return list;
-    }
-    
-    private static String getWarning(Warning warning) {
-        return "<div class=\"alert bg-danger text-light\">" +
-            switch (warning.mode()) {
-                case MARKDOWN -> Utils.markDown(warning.value());
-                case HTML -> warning.value();
-                case OTHER -> Utils.escapeHTML(warning.value());
-            } + "</div>";
     }
     
     static String getTopURL(Class<?> from) {
@@ -230,18 +231,18 @@ class Utils {
         return getTopPath(from) + getFilePath(to);
     }
     
+    static String getFileName(Class<?> type) {
+        final String name = type.getName();
+        return name.substring(name.lastIndexOf('.') + 1) + ".html";
+    }
+    
     static String getFilePath(Class<?> type) {
         return type.getName().replace('.', File.separatorChar) + ".html";
     }
     
-    static String getFileName(Class<?> type) {
-        final String name = type.getName();
-        return name.substring(name.lastIndexOf('.')+1) + ".html";
-    }
-    
     static String getPrettyName(Class<?> type) {
         final String name = type.getName();
-        return name.substring(name.lastIndexOf('.')+1).replace('$', '.');
+        return name.substring(name.lastIndexOf('.') + 1).replace('$', '.');
     }
     
 }

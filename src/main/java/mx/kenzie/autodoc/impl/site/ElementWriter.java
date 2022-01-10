@@ -19,7 +19,7 @@ public interface ElementWriter extends WritableElement {
     
     default void endBlock(OutputStream stream) throws IOException {
         this.write(stream, "\n</div>");
-    
+        
     }
     
     default void endSidebar(OutputStream stream) throws IOException {

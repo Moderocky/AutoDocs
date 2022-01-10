@@ -32,12 +32,12 @@ public class FieldWriter implements WritableElement, Element, ElementWriter {
         this.write(stream, "<section id=\"" + Utils.getId(target) + "\">");
         if (Utils.hasLongExamples(target)) {
             this.write(stream, """
-            <div class="row mb-2">
-            <div class="col col-lg-6 col-sm-12">""");
+                <div class="row mb-2">
+                <div class="col col-lg-6 col-sm-12">""");
         } else {
             this.write(stream, """
-            <div class="row mb-2">
-            <div class="col col-lg-8 col-sm-12">""");
+                <div class="row mb-2">
+                <div class="col col-lg-8 col-sm-12">""");
         }
         this.startBlock(stream);
         this.write(stream, "<h3 class=\"mb-0\">" + target.getName());

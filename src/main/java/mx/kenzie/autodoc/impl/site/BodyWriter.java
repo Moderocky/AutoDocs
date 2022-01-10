@@ -1,14 +1,16 @@
 package mx.kenzie.autodoc.impl.site;
 
 import mx.kenzie.autodoc.api.controller.Element;
+import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.schema.WritableElement;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Modifier;
-import java.util.List;
 import java.util.Map;
 
+@Description("""
+    Processes the markdown section for the root `index.html`
+    """)
 public class BodyWriter implements WritableElement, Element, ElementWriter {
     
     protected final Class<?>[] classes;

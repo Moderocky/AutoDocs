@@ -1,6 +1,7 @@
 package mx.kenzie.autodoc.impl.site;
 
 import mx.kenzie.autodoc.api.controller.Element;
+import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.schema.WritableElement;
 
 import java.io.IOException;
@@ -10,6 +11,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
+@Description("""
+    Processes a class element page.
+    """)
 public class ClassWriter implements WritableElement, Element, ElementWriter {
     
     protected final Class<?> target;
@@ -36,12 +40,12 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
         this.write(stream, "\">");
         if (Utils.hasLongExamples(target)) {
             this.write(stream, """
-            <div class="row mb-2">
-            <div class="col col-lg-6 col-sm-12">""");
+                <div class="row mb-2">
+                <div class="col col-lg-6 col-sm-12">""");
         } else {
             this.write(stream, """
-            <div class="row mb-2">
-            <div class="col col-lg-8 col-sm-12">""");
+                <div class="row mb-2">
+                <div class="col col-lg-8 col-sm-12">""");
         }
         this.startBlock(stream);
         this.write(stream, "\n<h3 class=\"mb-0\">");

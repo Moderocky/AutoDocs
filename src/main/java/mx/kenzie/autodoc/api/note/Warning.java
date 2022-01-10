@@ -26,7 +26,7 @@ public @interface Warning {
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR})
     @interface Multiple {
-    
+        
         @Ignore
         Warning[] value();
         

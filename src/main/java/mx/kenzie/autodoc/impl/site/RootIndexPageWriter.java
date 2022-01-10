@@ -1,12 +1,19 @@
 package mx.kenzie.autodoc.impl.site;
 
+import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.schema.WritableElement;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public record RootIndexPageWriter( WebsiteDetails details, String title, String description, String[] metas, String[] scripts,
+@Description("""
+    Writes the root `index.html` file of website documentation.
+    
+    This page has slightly different processing for names and no breadcrumbs.
+    """)
+public record RootIndexPageWriter(WebsiteDetails details, String title, String description, String[] metas,
+                                  String[] scripts,
                                   String[] keywords) {
     
     public RootIndexPageWriter(WebsiteDetails details, String title, String description,
@@ -30,26 +37,6 @@ public record RootIndexPageWriter( WebsiteDetails details, String title, String 
             """);
         this.writeFooter(target);
         return true;
-    }
-    
-    private void writeNavbar(OutputStream target) throws IOException {
-        this.write(target, "<div class=\"row\">");
-        this.write(target, "<div class=\"col-lg-12\">");
-        this.write(target, "<div class=\"col-lg-12 flex-md-row mt-4 mb-4 p-4 border rounded shadow-sm h-md-250 position-relative\">");
-        {
-            this.write(target, "<div class=\"row\">");
-            this.write(target, "<div class=\"col-md-8 col-sm-12\">");
-            this.write(target, "<a class=\"navbar-brand text-dark mr-4\" href=\"#\">");
-            this.write(target, details.title());
-            this.write(target, "</a>");
-            this.write(target, "</div>");
-            this.write(target, "<div class=\"col-md-4 col-sm-12\">");
-            this.write(target, "</div>");
-            this.write(target, "</div>");
-        }
-        this.write(target, "</div>");
-        this.write(target, "</div>");
-        this.write(target, "</div>");
     }
     
     private void writeHeader(OutputStream target) throws IOException {
@@ -82,6 +69,26 @@ public record RootIndexPageWriter( WebsiteDetails details, String title, String 
     
     void write(final OutputStream stream, final String content) throws IOException {
         stream.write(content.getBytes(StandardCharsets.UTF_8));
+    }
+    
+    private void writeNavbar(OutputStream target) throws IOException {
+        this.write(target, "<div class=\"row\">");
+        this.write(target, "<div class=\"col-lg-12\">");
+        this.write(target, "<div class=\"col-lg-12 flex-md-row mt-4 mb-4 p-4 border rounded shadow-sm h-md-250 position-relative\">");
+        {
+            this.write(target, "<div class=\"row\">");
+            this.write(target, "<div class=\"col-md-8 col-sm-12\">");
+            this.write(target, "<a class=\"navbar-brand text-dark mr-4\" href=\"#\">");
+            this.write(target, details.title());
+            this.write(target, "</a>");
+            this.write(target, "</div>");
+            this.write(target, "<div class=\"col-md-4 col-sm-12\">");
+            this.write(target, "</div>");
+            this.write(target, "</div>");
+        }
+        this.write(target, "</div>");
+        this.write(target, "</div>");
+        this.write(target, "</div>");
     }
     
     private void writeFooter(OutputStream target) throws IOException {

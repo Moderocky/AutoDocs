@@ -25,7 +25,7 @@ public @interface Example {
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR})
     @interface Multiple {
-    
+        
         @Ignore
         Example[] value();
         

@@ -1,15 +1,19 @@
 package mx.kenzie.autodoc.impl.site;
 
+import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.schema.WritableElement;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
-public record IndexPageWriter(String root, WebsiteDetails details, String title, String description, String[] metas, String[] scripts,
+@Description("""
+    Writes the `index.html` file for a package.
+    
+    This page processes package names slightly differently.
+    """)
+public record IndexPageWriter(String root, WebsiteDetails details, String title, String description, String[] metas,
+                              String[] scripts,
                               String[] keywords) {
     
     public IndexPageWriter(String root, WebsiteDetails details, String title, String description,
@@ -33,54 +37,6 @@ public record IndexPageWriter(String root, WebsiteDetails details, String title,
             """);
         this.writeFooter(target);
         return true;
-    }
-    
-    private void writeNavbar(OutputStream target) throws IOException {
-        this.write(target, "<div class=\"row\">");
-        this.write(target, "<div class=\"col-lg-12\">");
-        this.write(target, "<div class=\"col-lg-12 flex-md-row mt-4 mb-4 p-4 border rounded shadow-sm h-md-250 position-relative\">");
-        {
-            this.write(target, "<div class=\"row\">");
-            this.write(target, "<div class=\"col-md-8 col-sm-12\">");
-            this.write(target, "<a class=\"navbar-brand text-dark mr-4\" href=\"" + Utils.getTopPath(root) + "\">");
-            this.write(target, details.title());
-            this.write(target, "</a>");
-            this.writeBreadcrumbs(target);
-            this.write(target, "</div>");
-            this.write(target, "<div class=\"col-md-4 col-sm-12\">");
-            this.write(target, "</div>");
-            this.write(target, "</div>");
-        }
-        this.write(target, "</div>");
-        this.write(target, "</div>");
-        this.write(target, "</div>");
-    }
-    
-    private void writeBreadcrumbs(OutputStream target) throws IOException {
-        this.write(target, "<div class=\"navbar-collapse offcanvas-collapse\">");
-        this.write(target, "<nav class=\"navbar navbar-expand-lg\">");
-        this.write(target, "<ol class=\"breadcrumb navbar-nav me-auto mb-2 mb-lg-0\">");
-        this.writeBreadcrumbPieces(target);
-        this.write(target, "</ol>");
-        this.write(target, "</nav>");
-        this.write(target, "</div>");
-    }
-    
-    private void writeBreadcrumbPieces(OutputStream target) throws IOException {
-        StringBuilder url = new StringBuilder(Utils.getTopPath(root));
-        String part;
-        String name = root;
-        int index;
-        while ((index = name.indexOf('.')) > -1) {
-            part = name.substring(0, index);
-            name = name.substring(index+1);
-            url.append(part).append("/");
-            this.write(target, "<li class=\"breadcrumb-item\">");
-            this.write(target, "<a href=\"" + url + "\">");
-            this.write(target, part);
-            this.write(target, "</a>");
-            this.write(target, "</li>");
-        }
     }
     
     private void writeHeader(OutputStream target) throws IOException {
@@ -111,19 +67,29 @@ public record IndexPageWriter(String root, WebsiteDetails details, String title,
         this.write(target, "\n</head>\n<body>");
     }
     
-    @Deprecated
-    private void writeGap(OutputStream target) throws IOException {
-        this.write(target, """
-            
-            <!--  todo -->
-              <br>
-              <br>
-              <br>
-            <!--  todo -->""");
-    }
-    
     void write(final OutputStream stream, final String content) throws IOException {
         stream.write(content.getBytes(StandardCharsets.UTF_8));
+    }
+    
+    private void writeNavbar(OutputStream target) throws IOException {
+        this.write(target, "<div class=\"row\">");
+        this.write(target, "<div class=\"col-lg-12\">");
+        this.write(target, "<div class=\"col-lg-12 flex-md-row mt-4 mb-4 p-4 border rounded shadow-sm h-md-250 position-relative\">");
+        {
+            this.write(target, "<div class=\"row\">");
+            this.write(target, "<div class=\"col-md-8 col-sm-12\">");
+            this.write(target, "<a class=\"navbar-brand text-dark mr-4\" href=\"" + Utils.getTopPath(root) + "\">");
+            this.write(target, details.title());
+            this.write(target, "</a>");
+            this.writeBreadcrumbs(target);
+            this.write(target, "</div>");
+            this.write(target, "<div class=\"col-md-4 col-sm-12\">");
+            this.write(target, "</div>");
+            this.write(target, "</div>");
+        }
+        this.write(target, "</div>");
+        this.write(target, "</div>");
+        this.write(target, "</div>");
     }
     
     private void writeFooter(OutputStream target) throws IOException {
@@ -148,5 +114,43 @@ public record IndexPageWriter(String root, WebsiteDetails details, String title,
             </body>
             </html>""");
         
+    }
+    
+    private void writeBreadcrumbs(OutputStream target) throws IOException {
+        this.write(target, "<div class=\"navbar-collapse offcanvas-collapse\">");
+        this.write(target, "<nav class=\"navbar navbar-expand-lg\">");
+        this.write(target, "<ol class=\"breadcrumb navbar-nav me-auto mb-2 mb-lg-0\">");
+        this.writeBreadcrumbPieces(target);
+        this.write(target, "</ol>");
+        this.write(target, "</nav>");
+        this.write(target, "</div>");
+    }
+    
+    private void writeBreadcrumbPieces(OutputStream target) throws IOException {
+        StringBuilder url = new StringBuilder(Utils.getTopPath(root));
+        String part;
+        String name = root;
+        int index;
+        while ((index = name.indexOf('.')) > -1) {
+            part = name.substring(0, index);
+            name = name.substring(index + 1);
+            url.append(part).append("/");
+            this.write(target, "<li class=\"breadcrumb-item\">");
+            this.write(target, "<a href=\"" + url + "\">");
+            this.write(target, part);
+            this.write(target, "</a>");
+            this.write(target, "</li>");
+        }
+    }
+    
+    @Deprecated
+    private void writeGap(OutputStream target) throws IOException {
+        this.write(target, """
+            
+            <!--  todo -->
+              <br>
+              <br>
+              <br>
+            <!--  todo -->""");
     }
 }
