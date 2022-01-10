@@ -4,9 +4,7 @@ import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.note.GenerateExample;
 import mx.kenzie.autodoc.impl.site.PublicUtils;
 
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Description("""
@@ -46,6 +44,8 @@ public class ExampleGenerator {
         builder = new StringBuilder();
         builder.append("// Randomly-generated example").append(System.lineSeparator());
         if (element instanceof Method method) this.generateMethod(method, false);
+        else if (element instanceof Field field) this.generateField(field, false);
+        else if (element instanceof Constructor constructor) this.generateConstructor(constructor, false);
         return builder.toString();
     }
     
@@ -64,7 +64,113 @@ public class ExampleGenerator {
         builder = new StringBuilder();
         builder.append("// Randomly-generated example").append(System.lineSeparator());
         if (element instanceof Method method) this.generateMethod(method, true);
+        else if (element instanceof Field field) this.generateField(field, true);
+        else if (element instanceof Constructor constructor) this.generateConstructor(constructor, true);
         return builder.toString();
+    }
+    
+    @Description("""
+        Generates an example field access and uses the result in some way.
+        All of this is generated based on what is available for the field.
+        """)
+    @GenerateExample
+    protected void generateConstructor(Constructor<?> constructor, boolean extras) {
+        final Class<?> type = constructor.getDeclaringClass();
+        final String variable;
+        this.builder.append("final ")
+            .append(this.getTypeName(type))
+            .append(" ")
+            .append(variable = PublicUtils.createVarName(type))
+            .append(" = ");
+        this.writeConstructorUse(constructor);
+        this.builder.append(';');
+        if (!extras) return;
+        int count = 0;
+        for (final Method second : type.getDeclaredMethods()) {
+            if (second.isBridge() || second.isSynthetic()) continue;
+            if (!Modifier.isPublic(second.getModifiers())) continue;
+            final Class<?> thing = second.getReturnType();
+            builder.append(System.lineSeparator());
+            if (thing.isPrimitive() || thing == Boolean.class)
+                builder.append("assert ");
+            builder.append(variable);
+            this.writeMethodUse(second);
+            if (thing.isPrimitive() && thing != boolean.class) {
+                builder.append(" == ");
+                this.writePrimitiveUse(thing);
+            }
+            builder.append(';');
+            count++;
+            if (count >= 3) break;
+        }
+    }
+    
+    @Description("""
+        Generates an example field access and uses the result in some way.
+        All of this is generated based on what is available for the field.
+        """)
+    @GenerateExample
+    protected void generateField(Field field, boolean extras) {
+        final Class<?> type = field.getType();
+        final String variable;
+        if (!Modifier.isFinal(field.getModifiers())) {
+            this.writeFieldUse(field);
+            this.builder.append(" = ");
+            this.writeObjectUse(type);
+            this.builder.append(';');
+            this.builder.append(System.lineSeparator());
+        }
+        if (type.isPrimitive()) builder.append(variable = "assert ");
+        else builder.append("final ")
+            .append(this.getTypeName(type))
+            .append(" ")
+            .append(variable = PublicUtils.createVarName(type))
+            .append(" = ");
+        this.writeFieldUse(field);
+        if (type.isPrimitive() && type != boolean.class) {
+            builder.append(" == ");
+            this.writePrimitiveUse(type);
+        }
+        builder.append(';');
+        if (type.isPrimitive() || !extras) return;
+        int count = 0;
+        for (final Method second : type.getDeclaredMethods()) {
+            if (second.isBridge() || second.isSynthetic()) continue;
+            if (!Modifier.isPublic(second.getModifiers())) continue;
+            final Class<?> thing = second.getReturnType();
+            builder.append(System.lineSeparator());
+            if (thing.isPrimitive() || thing == Boolean.class)
+                builder.append("assert ");
+            builder.append(variable);
+            this.writeMethodUse(second);
+            if (thing.isPrimitive() && thing != boolean.class) {
+                builder.append(" == ");
+                this.writePrimitiveUse(thing);
+            }
+            builder.append(';');
+            count++;
+            if (count >= 3) break;
+        }
+    }
+    
+    private void writeConstructorUse(Constructor<?> constructor) {
+        final Class<?> type = constructor.getDeclaringClass();
+        this.builder.append("new ");
+        this.builder.append(this.getTypeName(type));
+        this.builder.append('(');
+        if (constructor.getParameterCount() > 0) {
+            final String[] names = SourceReader.getParameterNames(constructor);
+            this.builder.append(String.join(", ", names));
+        }
+        this.builder.append(')');
+        
+    }
+    
+    private void writeFieldUse(Field field) {
+        final Class<?> source = field.getDeclaringClass();
+        if (Modifier.isStatic(field.getModifiers())) builder.append(this.getTypeName(source));
+        else builder.append(PublicUtils.createVarName(source));
+        this.builder.append('.').append(field.getName());
     }
     
     @Description("""
@@ -99,16 +205,14 @@ public class ExampleGenerator {
             if (!Modifier.isPublic(second.getModifiers())) continue;
             final Class<?> thing = second.getReturnType();
             builder.append(System.lineSeparator());
-            if (thing == boolean.class || thing == Boolean.class || thing == int.class || thing == byte.class || thing == long.class)
+            if (thing.isPrimitive() || thing == Boolean.class)
                 builder.append("assert ");
             builder.append(variable);
-            writeMethodUse(second);
-            if (thing == int.class || thing == byte.class || thing == long.class)
-                builder.append(" >= ")
-                        .append(ThreadLocalRandom.current().nextInt(3, 92));
-            if (thing == float.class || thing == double.class)
-                builder.append(" == ")
-                    .append(ThreadLocalRandom.current().nextFloat(3, 92));
+            this.writeMethodUse(second);
+            if (thing.isPrimitive() && thing != boolean.class) {
+                builder.append(" == ");
+                this.writePrimitiveUse(thing);
+            }
             builder.append(';');
             count++;
             if (count >= 3) break;
@@ -135,6 +239,41 @@ public class ExampleGenerator {
         final String name = type.getCanonicalName();
         if (name.indexOf('.') < 0) return name;
         return name.substring(name.lastIndexOf('.') + 1);
+    }
+    
+    private void writeObjectUse(Class<?> type) {
+        if (type.isPrimitive()) {
+            this.writePrimitiveUse(type);
+            return;
+        } else if (type == String.class) {
+            this.builder.append("\"hello\"");
+            return;
+        }
+        final Constructor<?>[] constructors = type.getDeclaredConstructors();
+        for (final Constructor<?> constructor : constructors) {
+            if (!Modifier.isPublic(constructor.getModifiers())) return;
+            this.writeConstructorUse(constructor);
+            return;
+        }
+        System.out.println(type.getSimpleName()); // todo
+        this.builder.append(PublicUtils.createVarName(type));
+    }
+    
+    private void writePrimitiveUse(Class<?> type) {
+        if (!type.isPrimitive()) {
+            this.writeObjectUse(type);
+            return;
+        }
+        if (type == int.class || type == byte.class || type == short.class || type == long.class)
+            builder.append(ThreadLocalRandom.current().nextInt(3, 92));
+        else if (type == float.class || type == double.class)
+            builder.append(ThreadLocalRandom.current().nextFloat(3, 92));
+        else if (type == char.class) builder.append('c');
+        else if (type == boolean.class) builder.append(false);
+        else {
+            System.out.println(type.getSimpleName()); // todo
+            builder.append("null");
+        }
     }
     
 }

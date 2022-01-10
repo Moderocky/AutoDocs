@@ -2,7 +2,6 @@ package mx.kenzie.autodoc;
 
 import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.note.Example;
-import mx.kenzie.autodoc.api.note.GenerateExample;
 import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.autodoc.impl.site.*;
 

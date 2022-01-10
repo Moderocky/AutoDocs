@@ -38,6 +38,25 @@ public interface PageElement extends WritableElement {
 @Description("""
     A small detail block for the right-middle column.
     """)
+@FunctionalInterface
+interface TitleArea extends PageElement {
+    
+    @Ignore
+    @Override
+    default void start(OutputStream stream) throws IOException {
+        this.write(stream, "\n<div class=\"col col-lg-12 pt-4 px-4 pb-0 m-0\">");
+    }
+    
+    @Ignore
+    @Override
+    default void end(OutputStream stream) throws IOException {
+        this.write(stream, "</div>");
+    }
+}
+
+@Description("""
+    A small detail block for the right-middle column.
+    """)
 abstract class RightDetail implements PageElement {
     
     @Ignore
@@ -80,24 +99,5 @@ class RightTextDetail extends RightDetail {
         this.write(stream, "<p class=\"pb-3 mb-0 small lh-sm\">");
         this.write(stream, text);
         this.write(stream, "</p>");
-    }
-}
-
-@Description("""
-    A small detail block for the right-middle column.
-    """)
-@FunctionalInterface
-interface TitleArea extends PageElement {
-    
-    @Ignore
-    @Override
-    default void start(OutputStream stream) throws IOException {
-        this.write(stream, "\n<div class=\"col col-lg-12 pt-4 px-4 pb-0 m-0\">");
-    }
-    
-    @Ignore
-    @Override
-    default void end(OutputStream stream) throws IOException {
-        this.write(stream, "</div>");
     }
 }

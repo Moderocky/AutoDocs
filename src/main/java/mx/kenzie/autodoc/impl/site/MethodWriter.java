@@ -83,7 +83,7 @@ public class MethodWriter implements WritableElement, Element, ElementWriter {
         builder.append(String.join(", ", list));
         if (target.isVarArgs()) {
             final String result = builder.toString();
-            return result.substring(0, result.length()-2) + "...)";
+            return result.substring(0, result.length() - 2) + "...)";
         } else {
             builder.append(")");
             return builder.toString();

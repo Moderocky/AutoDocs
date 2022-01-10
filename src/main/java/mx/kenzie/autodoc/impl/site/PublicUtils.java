@@ -28,6 +28,7 @@ public class PublicUtils {
     
     @GenerateExample
     public static String createVarName(Class<?> type) {
+        if (type.isArray()) return createVarName(type.getComponentType());
         if (type.isPrimitive()) {
             if (type == byte.class) return "b";
             if (type == short.class) return "s";
@@ -38,7 +39,7 @@ public class PublicUtils {
             if (type == char.class) return "c";
             if (type == boolean.class) return "z";
             if (type == void.class) return "v";
-        }
+        } else if (type == Class.class) return "clazz";
         final String original = type.getSimpleName();
         return createVarName(original);
     }
@@ -50,14 +51,15 @@ public class PublicUtils {
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] >= 'A' && chars[i] <= 'Z') index = i;
         }
-        if (index < 0 || index > chars.length - 2)  {
+        if (index < 0 || index > chars.length - 2) {
             return type.toLowerCase(Locale.ROOT);
         } else {
             return type.substring(index).toLowerCase(Locale.ROOT);
         }
     }
-
+    
 }
+
 @Ignore
 class Utils extends PublicUtils {
     
@@ -163,17 +165,17 @@ class Utils extends PublicUtils {
             if (generated.value()) content = new ExampleGenerator(target).generateLong();
             else content = new ExampleGenerator(target).generateShort();
             builder.append(getExample(new Example() {
-    
+                
                 @Override
                 public Class<? extends Annotation> annotationType() {
                     return Example.class;
                 }
-    
+                
                 @Override
                 public String value() {
                     return content;
                 }
-    
+                
                 @Override
                 public String language() {
                     return "java";
