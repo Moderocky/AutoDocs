@@ -214,6 +214,7 @@ class Utils {
     }
     
     static String getTopPath(String string) {
+        if (string.isEmpty()) return "";
         final StringBuilder builder = new StringBuilder();
         int index;
         builder.append("../");

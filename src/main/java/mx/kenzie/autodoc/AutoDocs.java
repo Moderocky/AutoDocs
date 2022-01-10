@@ -29,7 +29,7 @@ public class AutoDocs {
         System.exit(0);
     }
     
-    public static void generateDocumentation(String title, File output, File source, String... namespaces) throws IOException {
+    public static void generateDocumentation(String title, String description, String body, File output, File source, String... namespaces) throws IOException {
         final List<Class<?>> list = new ArrayList<>();
         final URL jar = source.toURI().toURL();
         for (final String namespace : namespaces) {
@@ -42,6 +42,7 @@ public class AutoDocs {
                     if (name.startsWith(namespace)) try {
                         final Class<?> data = Class.forName(name
                             .substring(0, name.length() - 6), false, AutoDocs.class.getClassLoader());
+                        if (data.isAnonymousClass() || data.isLocalClass() || data.isHidden() || data.isSynthetic()) continue;
                         list.add(data);
                     } catch (ClassNotFoundException ignored) {}
                 }
@@ -51,10 +52,10 @@ public class AutoDocs {
             }
         }
         final Class<?>[] classes = list.toArray(new Class[0]);
-        generateDocumentation(title, output, classes);
+        generateDocumentation(title, description, body, output, classes);
     }
     
-    public static void generateDocumentation(String title, File output, String... namespaces) throws IOException {
+    public static void generateDocumentation(String title, String description, String body, File output, String... namespaces) throws IOException {
         final List<Class<?>> list = new ArrayList<>();
         final CodeSource source = AutoDocs.class.getProtectionDomain().getCodeSource();
         if (source == null) return;
@@ -70,15 +71,16 @@ public class AutoDocs {
                         final Class<?> data = Class.forName(name
                             .substring(0, name.length() - 6)
                             .replace('/', '.'), false, AutoDocs.class.getClassLoader());
+                        if (data.isAnonymousClass() || data.isLocalClass() || data.isHidden() || data.isSynthetic()) continue;
                         list.add(data);
                     } catch (ClassNotFoundException ignored) {}
                 }
             }
         final Class<?>[] classes = list.toArray(new Class[0]);
-        generateDocumentation(title, output, classes);
+        generateDocumentation(title, description, body, output, classes);
     }
     
-    public static void generateDocumentation(String title, File output, Class<?>... classes) throws IOException {
+    public static void generateDocumentation(String title, String description, String body, File output, Class<?>... classes) throws IOException {
         for (final Class<?> type : classes) {
             final String name = type.getName().replace('.', File.separatorChar);
             final File file = new File(output, name + ".html");
@@ -111,11 +113,20 @@ public class AutoDocs {
             final IndexPageWriter writer = new IndexPageWriter(directory,
                 new WebsiteDetails(title, Arrays.asList(classes)),
                 "Index of " + directory,
-                "Documentation for this class and its members.",
+                "Documentation for this package.",
                 directory);
             try (final FileOutputStream stream = new FileOutputStream(index)) {
                 writer.write(stream, new ClassIndexWriter(directory, list));
             }
+        }
+        final File index = new File(output, "index.html");
+        final RootIndexPageWriter writer = new RootIndexPageWriter(new WebsiteDetails(title, Arrays.asList(classes)),
+            title,
+            description != null ? description : "Procedurally-generated documentation, examples and insights about " + classes.length + " unique classes.",
+            title.split(" "));
+        try (final FileOutputStream stream = new FileOutputStream(index)) {
+            final List<Class<?>> list = filterClasses("", classes);
+            writer.write(stream, new BodyWriter(body, classes), new ClassIndexWriter("", list));
         }
     }
     
