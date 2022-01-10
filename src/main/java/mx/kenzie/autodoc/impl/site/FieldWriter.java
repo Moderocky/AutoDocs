@@ -30,26 +30,25 @@ public class FieldWriter implements WritableElement, Element, ElementWriter {
     public void write(OutputStream stream) throws IOException {
         if (Utils.ignore(target)) return;
         this.write(stream, "<section id=\"" + Utils.getId(target) + "\">");
-        if (Utils.hasLongExamples(target)) {
-            this.write(stream, """
-                <div class="row mb-2">
-                <div class="col col-lg-6 col-sm-12">""");
-        } else {
-            this.write(stream, """
-                <div class="row mb-2">
-                <div class="col col-lg-8 col-sm-12">""");
-        }
+        this.createSection(target, stream);
         this.startBlock(stream);
-        this.write(stream, "<h3 class=\"mb-0\">" + target.getName());
-        this.write(stream, "</h3>");
-        this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Field</strong>");
+        ((TitleArea) thing -> {
+            this.write(stream, "<h3 class=\"mb-0\">");
+//            this.write(stream, "<span class=\"text-secondary text-decoration-none\">");
+//            this.write(stream, target.getType().getSimpleName());
+//            this.write(stream, "</span> ");
+            this.write(stream, target.getName());
+            this.write(stream, "</h3>");
+            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Field</strong>");
+        }).printTo(stream);
+        this.startMainArea(stream);
         this.write(stream, Utils.getDescription(target));
         this.write(stream, "</div>");
         // side block
         this.write(stream, "<div class=\"col-md-4 d-none d-lg-block\">");
         new RightTextDetail("Type", Utils.hierarchyLabel(target.getType()))
             .printTo(stream);
-        new RightTextDetail("Modifiers", Utils.createModifiers(target.getModifiers()))
+        new RightTextDetail("Modifiers", Utils.createModifiers(target.getModifiers(), false))
             .printTo(stream);
         this.write(stream, "</div>");
         // end side block

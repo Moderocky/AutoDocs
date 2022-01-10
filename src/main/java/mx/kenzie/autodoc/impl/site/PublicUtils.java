@@ -1,14 +1,13 @@
 package mx.kenzie.autodoc.impl.site;
 
-import mx.kenzie.autodoc.api.note.Description;
-import mx.kenzie.autodoc.api.note.Example;
-import mx.kenzie.autodoc.api.note.Ignore;
-import mx.kenzie.autodoc.api.note.Warning;
+import mx.kenzie.autodoc.api.note.*;
+import mx.kenzie.autodoc.api.tools.ExampleGenerator;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -16,9 +15,51 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
+
+public class PublicUtils {
+    
+    @GenerateExample
+    public static String getPrettyName(Class<?> type) {
+        final String name = type.getName();
+        return name.substring(name.lastIndexOf('.') + 1).replace('$', '.');
+    }
+    
+    @GenerateExample
+    public static String createVarName(Class<?> type) {
+        if (type.isPrimitive()) {
+            if (type == byte.class) return "b";
+            if (type == short.class) return "s";
+            if (type == int.class) return "i";
+            if (type == long.class) return "j";
+            if (type == float.class) return "f";
+            if (type == double.class) return "d";
+            if (type == char.class) return "c";
+            if (type == boolean.class) return "z";
+            if (type == void.class) return "v";
+        }
+        final String original = type.getSimpleName();
+        return createVarName(original);
+    }
+    
+    private static String createVarName(String type) {
+        if (type.contains("$")) return createVarName(type.substring(0, type.indexOf('$') + 1));
+        int index = -1;
+        final char[] chars = type.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] >= 'A' && chars[i] <= 'Z') index = i;
+        }
+        if (index < 0 || index > chars.length - 2)  {
+            return type.toLowerCase(Locale.ROOT);
+        } else {
+            return type.substring(index).toLowerCase(Locale.ROOT);
+        }
+    }
+
+}
 @Ignore
-class Utils {
+class Utils extends PublicUtils {
     
     static String hierarchyLabel(Class<?> type) {
         final StringBuilder builder = new StringBuilder();
@@ -33,7 +74,7 @@ class Utils {
         return builder.toString();
     }
     
-    static String createModifiers(final int modifiers) {
+    static String createModifiers(final int modifiers, final boolean method) {
         final StringBuilder builder = new StringBuilder();
         if (Modifier.isPublic(modifiers))
             builder.append("<span class=\"badge bg-primary\">public</span> ");
@@ -51,16 +92,18 @@ class Utils {
             builder.append("<span class=\"badge bg-success\">strict</span> ");
         if (Modifier.isSynchronized(modifiers))
             builder.append("<span class=\"badge bg-success\">synchronized</span> ");
-        if (Modifier.isVolatile(modifiers))
+        if (Modifier.isVolatile(modifiers) && method)
+            builder.append("<span class=\"badge bg-danger\">bridge</span> ");
+        else if (Modifier.isVolatile(modifiers))
             builder.append("<span class=\"badge bg-success\">volatile</span> ");
-        if (Modifier.isTransient(modifiers))
+        if (Modifier.isTransient(modifiers) && method)
+            builder.append("<span class=\"badge bg-danger\">varargs</span> ");
+        else if (Modifier.isTransient(modifiers))
             builder.append("<span class=\"badge bg-danger\">transient</span> ");
         if (Modifier.isNative(modifiers))
             builder.append("<span class=\"badge bg-danger\">native</span> ");
         if ((modifiers & 0x00001000) != 0)
             builder.append("<span class=\"badge bg-danger\">synthetic</span> ");
-        if ((modifiers & 0x00000040) != 0)
-            builder.append("<span class=\"badge bg-danger\">bridge</span> ");
         return builder.toString();
     }
     
@@ -103,8 +146,8 @@ class Utils {
     
     static String getExamples(AnnotatedElement target) {
         final StringBuilder builder = new StringBuilder();
-        if (hasLongExamples(target)) builder.append("<div class=\"col col-lg-6 col-sm-12\">");
-        else builder.append("<div class=\"col col-lg-4 col-sm-12\">");
+        if (hasLongExamples(target)) builder.append("<div class=\"col col-lg-8 col-sm-12 col-md-12\">");
+        else builder.append("<div class=\"col col-lg-4 col-sm-12 col-md-12\">");
         final Example example = target.getDeclaredAnnotation(Example.class);
         if (example != null)
             builder.append(getExample(example));
@@ -113,6 +156,29 @@ class Utils {
             for (final Example sub : multiple.value()) {
                 builder.append(getExample(sub));
             }
+        }
+        final GenerateExample generated = target.getDeclaredAnnotation(GenerateExample.class);
+        if (generated != null) {
+            final String content;
+            if (generated.value()) content = new ExampleGenerator(target).generateLong();
+            else content = new ExampleGenerator(target).generateShort();
+            builder.append(getExample(new Example() {
+    
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    return Example.class;
+                }
+    
+                @Override
+                public String value() {
+                    return content;
+                }
+    
+                @Override
+                public String language() {
+                    return "java";
+                }
+            }));
         }
         builder.append("</div>");
         return builder.toString();
@@ -238,11 +304,6 @@ class Utils {
     
     static String getFilePath(Class<?> type) {
         return type.getName().replace('.', File.separatorChar) + ".html";
-    }
-    
-    static String getPrettyName(Class<?> type) {
-        final String name = type.getName();
-        return name.substring(name.lastIndexOf('.') + 1).replace('$', '.');
     }
     
 }

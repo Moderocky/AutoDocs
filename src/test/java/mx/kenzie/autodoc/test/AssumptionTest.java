@@ -37,6 +37,15 @@ public class AssumptionTest {
         System.out.println(Blob.class.getTypeName());
     }
     
+    @Test
+    public void casing() {
+        System.out.println("a: " + ('a' - 'A'));
+        System.out.println("b: " + ('b' - 'B'));
+        System.out.println("c: " + ('c' - 'C'));
+        System.out.println("d: " + ('d' - 'D'));
+        System.out.println("z: " + ('z' - 'Z'));
+    }
+    
     public class Blob {
     
     }

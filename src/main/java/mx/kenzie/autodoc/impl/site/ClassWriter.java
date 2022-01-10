@@ -38,26 +38,21 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
         this.write(stream, "\n<section id=\"");
         this.write(stream, Utils.getId(target));
         this.write(stream, "\">");
-        if (Utils.hasLongExamples(target)) {
-            this.write(stream, """
-                <div class="row mb-2">
-                <div class="col col-lg-6 col-sm-12">""");
-        } else {
-            this.write(stream, """
-                <div class="row mb-2">
-                <div class="col col-lg-8 col-sm-12">""");
-        }
+        this.createSection(target, stream);
         this.startBlock(stream);
-        this.write(stream, "\n<h3 class=\"mb-0\">");
-        this.write(stream, this.createTitle(target));
-        this.write(stream, "</h3>");
-        this.writeType(stream);
+        ((TitleArea) thing -> {
+            this.write(stream, "\n<h3 class=\"mb-0\">");
+            this.write(stream, this.createTitle(target));
+            this.write(stream, "</h3>");
+            this.writeType(stream);
+        }).printTo(stream);
+        this.startMainArea(stream);
         this.write(stream, Utils.getWarnings(target));
         this.write(stream, Utils.getDescription(target));
         this.write(stream, "\n</div>");
         this.write(stream, "\n<div class=\"col-lg-4 col-sm-12\">");
         this.writeSupers(stream);
-        new RightTextDetail("Modifiers", Utils.createModifiers(target.getModifiers()))
+        new RightTextDetail("Modifiers", Utils.createModifiers(target.getModifiers(), false))
             .printTo(stream);
         this.write(stream, "\n</div>");
         this.write(stream, "\n</div>");

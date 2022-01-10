@@ -19,9 +19,11 @@
 </ul>
 </div></div></div></div></div></div>
 <section id="class:AnnotationHandler"><div class="row mb-2">
-<div class="col col-lg-6 col-sm-12"><div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-  <div class="col col-lg-8 col-sm-12 p-4 d-flex flex-column position-static">
-<h3 class="mb-0">AnnotationHandler</h3><p><strong class="d-inline-block mb-2 text-success">Interface</strong></p><div class="row p-2"></div><p>A customisable handler for parsing annotations.
+<div class="col-lg-8 col-md-12 col-sm-12">
+<div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0">
+<h3 class="mb-0">AnnotationHandler</h3><p><strong class="d-inline-block mb-2 text-success">Interface</strong></p></div>
+<div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><div class="row p-2"></div><p>A customisable handler for parsing annotations.
 This can be used to add extra details to the output.</p>
 <p>These handlers are specific to an output schema.</p>
 
@@ -29,7 +31,7 @@ This can be used to add extra details to the output.</p>
 <div class="col-lg-4 col-sm-12"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-info">abstract</span> </p></div>
 </div>
 </div>
-</div><div class="col col-lg-6 col-sm-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">class MyHandler implements AnnotationHandler {
+</div><div class="col col-lg-8 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">class MyHandler implements AnnotationHandler {
     @Override
     public boolean accepts(Annotation annotation) {
         return annotation instanceof Example;
@@ -45,22 +47,46 @@ This can be used to add extra details to the output.</p>
 </div></div>
 </div>
 </section><h2 class="border-bottom pb-2 mb-0">Methods</h2><br /><section id="method:state(0)"><div class="row mb-2">
-<div class="col col-lg-8 col-sm-12"><div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-  <div class="col col-lg-8 col-sm-12 p-4 d-flex flex-column position-static"><h3 class="mb-0">state<span class="text-secondary"> ()</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong><p>The state where this is to be printed.
+<div class="col-lg-8 col-md-12 col-sm-12">
+<div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">state<span class="text-secondary"> ()</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong></div>
+<div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>The state where this is to be printed.
 This is designed for use with the website schema.</p>
 </div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary">State</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> </p></div></div></div>
-</div><div class="col col-lg-4 col-sm-12"></div></div></section><section id="method:parse(2)"><div class="row mb-2">
-<div class="col col-lg-8 col-sm-12"><div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-  <div class="col col-lg-8 col-sm-12 p-4 d-flex flex-column position-static"><h3 class="mb-0">parse<span class="text-secondary"> (Annotation, OutputStream)</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong><p>Pretty-writes the content of this annotation to the output stream.
+</div><div class="col col-lg-4 col-sm-12 col-md-12"></div></div></section><section id="method:parse(2)"><div class="row mb-2">
+<div class="col-lg-8 col-md-12 col-sm-12">
+<div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">parse<span class="text-secondary"> (Annotation, OutputStream)</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong></div>
+<div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Pretty-writes the content of this annotation to the output stream.
 This will not differentiate between the single and multiple form of the annotation.</p>
-</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-info">abstract</span> </p></div></div></div>
-</div><div class="col col-lg-4 col-sm-12"></div></div></section><section id="method:accepts(1)"><div class="row mb-2">
-<div class="col col-lg-8 col-sm-12"><div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-  <div class="col col-lg-8 col-sm-12 p-4 d-flex flex-column position-static"><h3 class="mb-0">accepts<span class="text-secondary"> (Annotation)</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong><p>Determines whether this handler can process the given annotation.
+<div class="pt-2 col-sm-12"><button class="d-inline btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#params288285411" aria-expanded="false" aria-controls="params288285411">Parameters</button><div class="collapse" id="params288285411">
+<table class="table table-borderless">
+<thead><tr><th scope="col">Index</th><th scope="col">Type</th><th scope="col">Name</th>
+</tr></thead>
+<tbody>
+<tr><th scope="row">1</th><td>Annotation</td><td>annotation</td>
+</tr>
+<tr><th scope="row">2</th><td>OutputStream</td><td>stream</td>
+</tr>
+</tbody>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-info">abstract</span> </p></div></div></div>
+</div><div class="col col-lg-4 col-sm-12 col-md-12"></div></div></section><section id="method:accepts(1)"><div class="row mb-2">
+<div class="col-lg-8 col-md-12 col-sm-12">
+<div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">accepts<span class="text-secondary"> (Annotation)</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong></div>
+<div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Determines whether this handler can process the given annotation.
 This can be used as a type (or multi-type check.)</p>
 <p>If this passes, the <a href="#method:parse(2)">parse</a> method will be called.</p>
-</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">boolean</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-info">abstract</span> </p></div></div></div>
-</div><div class="col col-lg-4 col-sm-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">public boolean accepts(Annotation annotation) {
+<div class="pt-2 col-sm-12"><button class="d-inline btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#params1363667909" aria-expanded="false" aria-controls="params1363667909">Parameters</button><div class="collapse" id="params1363667909">
+<table class="table table-borderless">
+<thead><tr><th scope="col">Index</th><th scope="col">Type</th><th scope="col">Name</th>
+</tr></thead>
+<tbody>
+<tr><th scope="row">1</th><td>Annotation</td><td>annotation</td>
+</tr>
+</tbody>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">boolean</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-info">abstract</span> </p></div></div></div>
+</div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">public boolean accepts(Annotation annotation) {
     return annotation instanceof MyAnnotation;
 }
 

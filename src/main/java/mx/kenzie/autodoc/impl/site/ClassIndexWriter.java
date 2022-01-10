@@ -40,9 +40,12 @@ public class ClassIndexWriter implements WritableElement, Element, ElementWriter
             <div class="row mb-2">
             <div class="col col-lg-12 col-sm-12">""");
         this.startBlock(stream);
-        this.write(stream, "\n<h3 class=\"mb-0\">");
-        this.write(stream, "Package Index");
-        this.write(stream, "</h3>");
+        ((TitleArea) thing -> {
+            this.write(stream, "\n<h3 class=\"mb-0\">");
+            this.write(stream, "Package Index");
+            this.write(stream, "</h3>");
+        }).printTo(stream);
+        this.startMainArea(stream);
         this.writeType(stream);
         this.writeIndices(stream);
         this.write(stream, "\n</div>");
