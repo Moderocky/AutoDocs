@@ -21,7 +21,7 @@
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><div class="row p-2"></div><p>A small detail block for the right-middle column.</p>
 
 </div>
-<div class="col-lg-4 col-sm-12"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Implements</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-success">PageElement</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-info">abstract</span> </p></div>
+<div class="col-lg-4 col-sm-12"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Implements</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-success"data-bs-toggle="tooltip" data-bs-placement="left" title="mx.kenzie.autodoc.impl.site.PageElement">PageElement</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Must be overridden by another class.">abstract</span> </p></div>
 </div>
 </div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"></div>
@@ -34,6 +34,10 @@
 <script src="https://use.fontawesome.com/releases/v5.13.1/js/all.js" type="text/javascript" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js" crossorigin="anonymous"></script>
 <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
    document.addEventListener('DOMContentLoaded', (event) => {
      document.querySelectorAll('pre code').forEach((el) => {
        hljs.highlightElement(el);

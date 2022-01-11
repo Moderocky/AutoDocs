@@ -6,6 +6,7 @@ import mx.kenzie.autodoc.api.schema.WritableElement;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -60,6 +61,7 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
         this.write(stream, Utils.getExamples(target));
         this.write(stream, "\n</div>");
         this.write(stream, "\n</section>");
+        this.writeConstructors(stream);
         this.writeFields(stream);
         this.writeMethods(stream);
     }
@@ -107,6 +109,19 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
             this.write(stream, "<br />");
             for (final Method method : methods) {
                 final MethodWriter writer = new MethodWriter(method);
+                writer.write(stream);
+            }
+            this.write(stream, "<br />");
+        }
+    }
+    
+    protected void writeConstructors(OutputStream stream) throws IOException {
+        final Constructor<?>[] constructors = Utils.getConstructors(target).toArray(new Constructor[0]);
+        if (constructors.length > 0) {
+            this.write(stream, "<h2 class=\"border-bottom pb-2 mb-0\">Constructors</h2>");
+            this.write(stream, "<br />");
+            for (final Constructor<?> constructor : constructors) {
+                final ConstructorWriter writer = new ConstructorWriter(constructor);
                 writer.write(stream);
             }
             this.write(stream, "<br />");

@@ -13,14 +13,19 @@
 <body>
 <main id="body" class="container">
 <div class="row"><div class="col-lg-12"><div class="col-lg-12 flex-md-row mt-4 mb-4 p-4 border rounded shadow-sm h-md-250 position-relative"><div class="row"><div class="col-md-8 col-sm-12"><a class="navbar-brand text-dark mr-4" href="../../../../../">AutoDocs</a><div class="navbar-collapse offcanvas-collapse"><nav class="navbar navbar-expand-lg"><ol class="breadcrumb navbar-nav me-auto mb-2 mb-lg-0"><li class="breadcrumb-item"><a href="../../../../../mx/">mx</a></li><li class="breadcrumb-item"><a href="../../../../../mx/kenzie/">kenzie</a></li><li class="breadcrumb-item"><a href="../../../../../mx/kenzie/autodoc/">autodoc</a></li><li class="breadcrumb-item"><a href="../../../../../mx/kenzie/autodoc/api/">api</a></li><li class="breadcrumb-item"><a href="../../../../../mx/kenzie/autodoc/api/tools/">tools</a></li><li class="breadcrumb-item active" aria-current="page">ExampleGenerator</li></ol></nav></div></div><div class="col-md-4 col-sm-12">
-<div class="dropdown">
+<div class="dropdown m-1">
+<button class="btn btn-primary dropdown-toggle" type="button" id="constructorMenu" data-bs-toggle="dropdown" aria-expanded="false">Constructors</button>
+<ul class="dropdown-menu" aria-labelledby="constructorMenu"><li><a class="dropdown-item" href="#constructor:ExampleGenerator(1)">new ExampleGenerator(1)</a></li>
+</ul>
+</div>
+<div class="dropdown m-1">
 <button class="btn btn-primary dropdown-toggle" type="button" id="fieldMenu" data-bs-toggle="dropdown" aria-expanded="false">Fields</button>
 <ul class="dropdown-menu" aria-labelledby="fieldMenu"><li><a class="dropdown-item" href="#field:element">element</a></li><li><a class="dropdown-item" href="#field:builder">builder</a></li>
 </ul>
 </div>
-<div class="dropdown">
+<div class="dropdown m-1">
 <button class="btn btn-primary dropdown-toggle" type="button" id="methodMenu" data-bs-toggle="dropdown" aria-expanded="false">Methods</button>
-<ul class="dropdown-menu" aria-labelledby="methodMenu"><li><a class="dropdown-item" href="#method:getTypeName(1)">getTypeName</a></li><li><a class="dropdown-item" href="#method:generateConstructor(2)">generateConstructor</a></li><li><a class="dropdown-item" href="#method:generateMethod(2)">generateMethod</a></li><li><a class="dropdown-item" href="#method:generateField(2)">generateField</a></li><li><a class="dropdown-item" href="#method:generateShort(0)">generateShort</a></li><li><a class="dropdown-item" href="#method:generateLong(0)">generateLong</a></li>
+<ul class="dropdown-menu" aria-labelledby="methodMenu"><li><a class="dropdown-item" href="#method:getTypeName(1)">getTypeName</a></li><li><a class="dropdown-item" href="#method:generateConstructor(2)">generateConstructor</a></li><li><a class="dropdown-item" href="#method:generateMethod(2)">generateMethod</a></li><li><a class="dropdown-item" href="#method:generateField(2)">generateField</a></li><li><a class="dropdown-item" href="#method:generateClass(2)">generateClass</a></li><li><a class="dropdown-item" href="#method:generateShort(0)">generateShort</a></li><li><a class="dropdown-item" href="#method:generateLong(0)">generateLong</a></li>
 </ul>
 </div></div></div></div></div></div>
 <section id="class:ExampleGenerator"><div class="row mb-2">
@@ -31,20 +36,40 @@
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><div class="row p-2"></div><p>This tool is able to generate examples for using elements.</p>
 
 </div>
-<div class="col-lg-4 col-sm-12"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Extends</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary">Object</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> </p></div>
+<div class="col-lg-4 col-sm-12"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Extends</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="java.lang.Object">Object</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> </p></div>
 </div>
 </div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
 
+new ExampleGenerator(element).generateShort();
+new ExampleGenerator(element).generateLong();
 </code></pre>
 </div></div>
 </div>
-</section><h2 class="border-bottom pb-2 mb-0">Fields</h2><br /><section id="field:element"><div class="row mb-2">
+</section><h2 class="border-bottom pb-2 mb-0">Constructors</h2><br /><section id="constructor:ExampleGenerator(1)"><div class="row mb-2">
+<div class="col-lg-8 col-md-12 col-sm-12">
+<div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0"><span class="text-secondary">new </span>ExampleGenerator<span class="text-secondary"> (AnnotatedElement)</span></h3><strong class="d-inline-block mb-2 text-primary">Constructor</strong></div>
+<div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static">No description is available for this element.<div class="pt-2 col-sm-12"><button class="d-inline btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#params293959874" aria-expanded="false" aria-controls="params293959874">Parameters</button><div class="collapse" id="params293959874">
+<table class="table table-borderless">
+<thead><tr><th scope="col">Index</th><th scope="col">Type</th><th scope="col">Name</th>
+</tr></thead>
+<tbody>
+<tr><th scope="row">1</th><td>AnnotatedElement</td><td>element</td>
+</tr>
+</tbody>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="mx.kenzie.autodoc.api.tools.ExampleGenerator">ExampleGenerator</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> </p></div></div></div>
+</div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
+final ExampleGenerator generator = new ExampleGenerator(element);
+generator.generateShort();
+generator.generateLong();
+</code></pre>
+</div></div></div></section><br /><h2 class="border-bottom pb-2 mb-0">Fields</h2><br /><section id="field:element"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 <div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">element</h3><strong class="d-inline-block mb-2 text-primary">Field</strong></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>The element for generation.</p>
-</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-success">AnnotatedElement</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">protected</span> <span class="badge bg-info">final</span> </p></div></div></div>
+</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-success"data-bs-toggle="tooltip" data-bs-placement="left" title="java.lang.reflect.AnnotatedElement">AnnotatedElement</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from extending classes.">protected</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Cannot be overridden or modified.">final</span> </p></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
 final AnnotatedElement element = generator.element;
 assert element.isAnnotationPresent(annotationClass);
@@ -57,7 +82,7 @@ element.getAnnotationsByType(annotationClass);
 <div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">builder</h3><strong class="d-inline-block mb-2 text-primary">Field</strong></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>The current builder being written to.
 This is replaced before every synchronised <a href="#method:generateLong(0)">generate</a> call.</p>
-</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary">StringBuilder</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">protected</span> <span class="badge bg-success">volatile</span> </p></div></div></div>
+</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="java.lang.StringBuilder">StringBuilder</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from extending classes.">protected</span> <span class="badge bg-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Not saved if this object is serialised.">transient</span> <span class="badge bg-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Safe to be accessed from multiple threads.">volatile</span> </p></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
 generator.builder = new StringBuilder(sequence);
 final StringBuilder builder = generator.builder;
@@ -80,19 +105,19 @@ and <code>my.thing.MyClass$Nested</code> would be converted to <code>Nested</cod
 <tr><th scope="row">1</th><td>Class</td><td>type</td>
 </tr>
 </tbody>
-</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary">String</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">protected</span> </p></div></div></div>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="java.lang.String">String</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from extending classes.">protected</span> </p></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
 final String string = generator.getTypeName(type);
 assert string.equals(anObject);
-assert string.length() == 47;
+assert string.length() == 7;
 string.toString();
 </code></pre>
 </div></div></div></section><section id="method:generateConstructor(2)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 <div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">generateConstructor<span class="text-secondary"> (Constructor, boolean)</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong></div>
-<div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Generates an example field access and uses the result in some way.
-All of this is generated based on what is available for the field.</p>
+<div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Generates an example constructor access and uses the result in some way.
+All of this is generated based on what is available for the constructor.</p>
 <div class="pt-2 col-sm-12"><button class="d-inline btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#params1089427579" aria-expanded="false" aria-controls="params1089427579">Parameters</button><div class="collapse" id="params1089427579">
 <table class="table table-borderless">
 <thead><tr><th scope="col">Index</th><th scope="col">Type</th><th scope="col">Name</th>
@@ -103,7 +128,7 @@ All of this is generated based on what is available for the field.</p>
 <tr><th scope="row">2</th><td>boolean</td><td>extras</td>
 </tr>
 </tbody>
-</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">protected</span> </p></div></div></div>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="void">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from extending classes.">protected</span> </p></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
 generator.generateConstructor(constructor, extras);
 </code></pre>
@@ -123,7 +148,7 @@ All of this is generated based on what is available for the method.</p>
 <tr><th scope="row">2</th><td>boolean</td><td>extras</td>
 </tr>
 </tbody>
-</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">protected</span> </p></div></div></div>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="void">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from extending classes.">protected</span> </p></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
 generator.generateMethod(method, extras);
 </code></pre>
@@ -143,9 +168,30 @@ All of this is generated based on what is available for the field.</p>
 <tr><th scope="row">2</th><td>boolean</td><td>extras</td>
 </tr>
 </tbody>
-</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">protected</span> </p></div></div></div>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="void">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from extending classes.">protected</span> </p></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
 generator.generateField(field, extras);
+</code></pre>
+</div></div></div></section><section id="method:generateClass(2)"><div class="row mb-2">
+<div class="col-lg-8 col-md-12 col-sm-12">
+<div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">generateClass<span class="text-secondary"> (Class, boolean)</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong></div>
+<div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Generates an example class access and uses the result in some way.
+All of this is generated based on what is available for the class.</p>
+<p>This will attempt to generate a range of static and dynamic examples.</p>
+<div class="pt-2 col-sm-12"><button class="d-inline btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#params2011413955" aria-expanded="false" aria-controls="params2011413955">Parameters</button><div class="collapse" id="params2011413955">
+<table class="table table-borderless">
+<thead><tr><th scope="col">Index</th><th scope="col">Type</th><th scope="col">Name</th>
+</tr></thead>
+<tbody>
+<tr><th scope="row">1</th><td>Class</td><td>type</td>
+</tr>
+<tr><th scope="row">2</th><td>boolean</td><td>extras</td>
+</tr>
+</tbody>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="void">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from extending classes.">protected</span> </p></div></div></div>
+</div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
+generator.generateClass(type, extras);
 </code></pre>
 </div></div></div></section><section id="method:generateShort(0)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
@@ -155,11 +201,11 @@ generator.generateField(field, extras);
 <p>The result is not guaranteed to be valid (or even usable) but may
 provide some indication of how to use it.</p>
 <p>This will always produce a short 1-to-2 line example.</p>
-</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary">String</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-success">synchronized</span> </p></div></div></div>
+</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="java.lang.String">String</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Can be used by one thread at a time.">synchronized</span> </p></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
 final String string = generator.generateShort();
 assert string.equals(anObject);
-assert string.length() == 53;
+assert string.length() == 56;
 string.toString();
 </code></pre>
 </div></div></div></section><section id="method:generateLong(0)"><div class="row mb-2">
@@ -172,11 +218,11 @@ provide some indication of how to use it.</p>
 <p>The long example will try and include some uses of the result, such as
 storing and using the result of a method call, or creating a new instance
 with a constructor and then calling some methods from the class.</p>
-</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary">String</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-success">synchronized</span> </p></div></div></div>
+</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="java.lang.String">String</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Can be used by one thread at a time.">synchronized</span> </p></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
 final String string = generator.generateLong();
 assert string.equals(anObject);
-assert string.length() == 45;
+assert string.length() == 39;
 string.toString();
 </code></pre>
 </div></div></div></section><br />
@@ -187,6 +233,10 @@ string.toString();
 <script src="https://use.fontawesome.com/releases/v5.13.1/js/all.js" type="text/javascript" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js" crossorigin="anonymous"></script>
 <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
    document.addEventListener('DOMContentLoaded', (event) => {
      document.querySelectorAll('pre code').forEach((el) => {
        hljs.highlightElement(el);

@@ -8,10 +8,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,7 +67,9 @@ class Utils extends PublicUtils {
         else if (type.isInterface()) builder.append("success");
         else if (type.isPrimitive()) builder.append("info");
         else builder.append("primary");
-        builder.append("\">");
+        builder.append('\"');
+        builder.append(toolTip("left", type.getName()));
+        builder.append('>');
         builder.append(type.getSimpleName());
         builder.append("</strong>");
         return builder.toString();
@@ -79,34 +78,56 @@ class Utils extends PublicUtils {
     static String createModifiers(final int modifiers, final boolean method) {
         final StringBuilder builder = new StringBuilder();
         if (Modifier.isPublic(modifiers))
-            builder.append("<span class=\"badge bg-primary\">public</span> ");
+            builder.append("<span class=\"badge bg-primary\" ").append(toolTip("Accessible from anywhere."))
+                .append(">public</span> ");
         else if (Modifier.isPrivate(modifiers))
-            builder.append("<span class=\"badge bg-primary\">private</span> ");
+            builder.append("<span class=\"badge bg-primary\" ").append(toolTip("Accessible only in this class."))
+                .append(">private</span> ");
         else if (Modifier.isProtected(modifiers))
-            builder.append("<span class=\"badge bg-primary\">protected</span> ");
+            builder.append("<span class=\"badge bg-primary\" ").append(toolTip("Accessible from extending classes."))
+                .append(">protected</span> ");
         if (Modifier.isStatic(modifiers))
-            builder.append("<span class=\"badge bg-info\">static</span> ");
-        if (Modifier.isAbstract(modifiers))
-            builder.append("<span class=\"badge bg-info\">abstract</span> ");
+            builder.append("<span class=\"badge bg-info\" ")
+                .append(toolTip("Belongs to the class rather than its objects.")).append(">static</span> ");
+        else if (Modifier.isAbstract(modifiers))
+            builder.append("<span class=\"badge bg-info\" ").append(toolTip("Must be overridden by another class."))
+                .append(">abstract</span> ");
         if (Modifier.isFinal(modifiers))
-            builder.append("<span class=\"badge bg-info\">final</span> ");
+            builder.append("<span class=\"badge bg-info\" ").append(toolTip("Cannot be overridden or modified."))
+                .append(">final</span> ");
         if (Modifier.isStrict(modifiers))
-            builder.append("<span class=\"badge bg-success\">strict</span> ");
+            builder.append("<span class=\"badge bg-success\" ").append(toolTip("Obeys strict floating-point maths."))
+                .append(">strict</span> ");
         if (Modifier.isSynchronized(modifiers))
-            builder.append("<span class=\"badge bg-success\">synchronized</span> ");
-        if (Modifier.isVolatile(modifiers) && method)
-            builder.append("<span class=\"badge bg-danger\">bridge</span> ");
-        else if (Modifier.isVolatile(modifiers))
-            builder.append("<span class=\"badge bg-success\">volatile</span> ");
+            builder.append("<span class=\"badge bg-success\" ").append(toolTip("Can be used by one thread at a time."))
+                .append(">synchronized</span> ");
         if (Modifier.isTransient(modifiers) && method)
-            builder.append("<span class=\"badge bg-danger\">varargs</span> ");
+            builder.append("<span class=\"badge bg-danger\" ")
+                .append(toolTip("The last array argument accepts multiple inputs.")).append(">varargs</span> ");
         else if (Modifier.isTransient(modifiers))
-            builder.append("<span class=\"badge bg-danger\">transient</span> ");
+            builder.append("<span class=\"badge bg-danger\" ")
+                .append(toolTip("Not saved if this object is serialised.")).append(">transient</span> ");
+        if (Modifier.isVolatile(modifiers) && method)
+            builder.append("<span class=\"badge bg-danger\" ").append(toolTip("Calls another method directly."))
+                .append(">bridge</span> ");
+        else if (Modifier.isVolatile(modifiers))
+            builder.append("<span class=\"badge bg-success\" ")
+                .append(toolTip("Safe to be accessed from multiple threads.")).append(">volatile</span> ");
         if (Modifier.isNative(modifiers))
-            builder.append("<span class=\"badge bg-danger\">native</span> ");
+            builder.append("<span class=\"badge bg-danger\" ").append(toolTip("Implemented by a native library."))
+                .append(">native</span> ");
         if ((modifiers & 0x00001000) != 0)
-            builder.append("<span class=\"badge bg-danger\">synthetic</span> ");
+            builder.append("<span class=\"badge bg-danger\" ")
+                .append(toolTip("Created by a program rather than a person.")).append(">synthetic</span> ");
         return builder.toString();
+    }
+    
+    static String toolTip(String text) {
+        return "data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"" + text + '\"';
+    }
+    
+    static String toolTip(String placement, String text) {
+        return "data-bs-toggle=\"tooltip\" data-bs-placement=\"" + placement + "\" title=\"" + text + '\"';
     }
     
     static boolean ignore(AnnotatedElement target) {
@@ -241,6 +262,9 @@ class Utils extends PublicUtils {
         if (element == null) return "";
         if (element instanceof Method method) {
             return "method:" + method.getName() + "(" + method.getParameterCount() + ")";
+        } else if (element instanceof Constructor<?> constructor) {
+            return "constructor:" + constructor.getDeclaringClass()
+                .getSimpleName() + "(" + constructor.getParameterCount() + ")";
         } else if (element instanceof Field field) {
             return "field:" + field.getName();
         } else if (element instanceof Class<?> thing) {
@@ -262,6 +286,14 @@ class Utils extends PublicUtils {
     static List<Method> getMethods(Class<?> type) {
         if (type == null) return new ArrayList<>();
         final List<Method> list = new ArrayList<>(Arrays.asList(type.getDeclaredMethods()));
+        list.removeIf(method -> Modifier.isPrivate(method.getModifiers()));
+        list.removeIf(method -> method.isAnnotationPresent(Ignore.class));
+        return list;
+    }
+    
+    static List<Constructor<?>> getConstructors(Class<?> type) {
+        if (type == null) return new ArrayList<>();
+        final List<Constructor<?>> list = new ArrayList<>(Arrays.asList(type.getDeclaredConstructors()));
         list.removeIf(method -> Modifier.isPrivate(method.getModifiers()));
         list.removeIf(method -> method.isAnnotationPresent(Ignore.class));
         return list;

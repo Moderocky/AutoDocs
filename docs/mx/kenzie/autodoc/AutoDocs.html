@@ -13,7 +13,12 @@
 <body>
 <main id="body" class="container">
 <div class="row"><div class="col-lg-12"><div class="col-lg-12 flex-md-row mt-4 mb-4 p-4 border rounded shadow-sm h-md-250 position-relative"><div class="row"><div class="col-md-8 col-sm-12"><a class="navbar-brand text-dark mr-4" href="../../../">AutoDocs</a><div class="navbar-collapse offcanvas-collapse"><nav class="navbar navbar-expand-lg"><ol class="breadcrumb navbar-nav me-auto mb-2 mb-lg-0"><li class="breadcrumb-item"><a href="../../../mx/">mx</a></li><li class="breadcrumb-item"><a href="../../../mx/kenzie/">kenzie</a></li><li class="breadcrumb-item"><a href="../../../mx/kenzie/autodoc/">autodoc</a></li><li class="breadcrumb-item active" aria-current="page">AutoDocs</li></ol></nav></div></div><div class="col-md-4 col-sm-12">
-<div class="dropdown">
+<div class="dropdown m-1">
+<button class="btn btn-primary dropdown-toggle" type="button" id="constructorMenu" data-bs-toggle="dropdown" aria-expanded="false">Constructors</button>
+<ul class="dropdown-menu" aria-labelledby="constructorMenu"><li><a class="dropdown-item" href="#constructor:AutoDocs(0)">new AutoDocs(0)</a></li>
+</ul>
+</div>
+<div class="dropdown m-1">
 <button class="btn btn-primary dropdown-toggle" type="button" id="methodMenu" data-bs-toggle="dropdown" aria-expanded="false">Methods</button>
 <ul class="dropdown-menu" aria-labelledby="methodMenu"><li><a class="dropdown-item" href="#method:generateDocumentation(5)">generateDocumentation</a></li><li><a class="dropdown-item" href="#method:generateDocumentation(5)">generateDocumentation</a></li><li><a class="dropdown-item" href="#method:generateDocumentation(6)">generateDocumentation</a></li>
 </ul>
@@ -28,12 +33,17 @@ Currently, this supports generating from loaded classes to an output directory.<
 <p>This is for webpage documentation. If another format is required, the schema must be run directly.</p>
 
 </div>
-<div class="col-lg-4 col-sm-12"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Extends</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary">Object</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-info">final</span> </p></div>
+<div class="col-lg-4 col-sm-12"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Extends</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="java.lang.Object">Object</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Cannot be overridden or modified.">final</span> </p></div>
 </div>
 </div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"></div>
 </div>
-</section><h2 class="border-bottom pb-2 mb-0">Methods</h2><br /><section id="method:generateDocumentation(5)"><div class="row mb-2">
+</section><h2 class="border-bottom pb-2 mb-0">Constructors</h2><br /><section id="constructor:AutoDocs(0)"><div class="row mb-2">
+<div class="col-lg-8 col-md-12 col-sm-12">
+<div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0"><span class="text-secondary">new </span>AutoDocs<span class="text-secondary"> ()</span></h3><strong class="d-inline-block mb-2 text-primary">Constructor</strong></div>
+<div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static">No description is available for this element.</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="mx.kenzie.autodoc.AutoDocs">AutoDocs</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> </p></div></div></div>
+</div><div class="col col-lg-4 col-sm-12 col-md-12"></div></div></section><br /><h2 class="border-bottom pb-2 mb-0">Methods</h2><br /><section id="method:generateDocumentation(5)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 <div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">generateDocumentation<span class="text-secondary"> (String, String, String, File, String...)</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong></div>
@@ -58,7 +68,7 @@ The body is used in the first element of the index page, above the class list.</
 <tr><th scope="row">5</th><td>String[]</td><td>namespaces</td>
 </tr>
 </tbody>
-</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-info">static</span> <span class="badge bg-danger">varargs</span> </p></div></div></div>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="void">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Belongs to the class rather than its objects.">static</span> <span class="badge bg-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="The last array argument accepts multiple inputs.">varargs</span> </p></div></div></div>
 </div><div class="col col-lg-8 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// The body is displayed on the index page and rendered with markdown.
 // You could stream a .md file to this.
 AutoDocs.generateDocumentation(title, pageDescription, markdownBody, outputFolder, &quot;org.example&quot;);
@@ -92,7 +102,7 @@ The body is used in the first element of the index page, above the class list.</
 <tr><th scope="row">5</th><td>Class[]</td><td>classes</td>
 </tr>
 </tbody>
-</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-info">static</span> <span class="badge bg-danger">varargs</span> </p></div></div></div>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="void">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Belongs to the class rather than its objects.">static</span> <span class="badge bg-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="The last array argument accepts multiple inputs.">varargs</span> </p></div></div></div>
 </div><div class="col col-lg-8 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// The body is displayed on the index page and rendered with markdown.
 // You could stream a .md file to this.
 AutoDocs.generateDocumentation(title, pageDescription, markdownBody, outputFolder, MyClass.class);
@@ -129,7 +139,7 @@ The body is used in the first element of the index page, above the class list.</
 <tr><th scope="row">6</th><td>String[]</td><td>namespaces</td>
 </tr>
 </tbody>
-</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary">public</span> <span class="badge bg-info">static</span> <span class="badge bg-danger">varargs</span> </p></div></div></div>
+</table></div></div></div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="void">void</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Belongs to the class rather than its objects.">static</span> <span class="badge bg-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="The last array argument accepts multiple inputs.">varargs</span> </p></div></div></div>
 </div><div class="col col-lg-8 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// The body is displayed on the index page and rendered with markdown.
 // You could stream a .md file to this.
 AutoDocs.generateDocumentation(title, pageDescription, markdownBody, outputFolder, sourceJar, &quot;org.example&quot;);
@@ -147,6 +157,10 @@ AutoDocs.generateDocumentation(title, pageDescription, markdownBody, outputFolde
 <script src="https://use.fontawesome.com/releases/v5.13.1/js/all.js" type="text/javascript" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js" crossorigin="anonymous"></script>
 <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
    document.addEventListener('DOMContentLoaded', (event) => {
      document.querySelectorAll('pre code').forEach((el) => {
        hljs.highlightElement(el);

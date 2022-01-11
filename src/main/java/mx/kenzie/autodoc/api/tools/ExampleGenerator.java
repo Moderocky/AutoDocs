@@ -23,13 +23,12 @@ public class ExampleGenerator {
         This is replaced before every synchronised [generate](#method:generateLong(0)) call.
         """)
     @GenerateExample
-    protected volatile StringBuilder builder;
+    protected transient volatile StringBuilder builder;
     
     @GenerateExample
     public ExampleGenerator(AnnotatedElement element) {
         this.element = element;
     }
-    
     
     @Description("""
         Generates an example of the element being used.
@@ -46,6 +45,7 @@ public class ExampleGenerator {
         if (element instanceof Method method) this.generateMethod(method, false);
         else if (element instanceof Field field) this.generateField(field, false);
         else if (element instanceof Constructor constructor) this.generateConstructor(constructor, false);
+        else if (element instanceof Class<?> type) this.generateClass(type, false);
         return builder.toString();
     }
     
@@ -66,12 +66,64 @@ public class ExampleGenerator {
         if (element instanceof Method method) this.generateMethod(method, true);
         else if (element instanceof Field field) this.generateField(field, true);
         else if (element instanceof Constructor constructor) this.generateConstructor(constructor, true);
+        else if (element instanceof Class<?> type) this.generateClass(type, true);
         return builder.toString();
     }
     
     @Description("""
-        Generates an example field access and uses the result in some way.
-        All of this is generated based on what is available for the field.
+        Generates an example class access and uses the result in some way.
+        All of this is generated based on what is available for the class.
+        
+        This will attempt to generate a range of static and dynamic examples.
+        """)
+    @GenerateExample
+    protected void generateClass(Class<?> type, boolean extras) {
+        final StringBuilder builder = this.builder;
+        this.builder = new StringBuilder();
+        this.writeObjectUse(type);
+        final String variable = this.builder.toString();
+        this.builder = builder;
+        final int max = extras ? 4 : 2;
+        int count = 0;
+        for (final Method second : type.getDeclaredMethods()) {
+            if (second.isBridge() || second.isSynthetic()) continue;
+            if (!Modifier.isPublic(second.getModifiers())) continue;
+            final Class<?> thing = second.getReturnType();
+            this.builder.append(System.lineSeparator());
+            if (thing.isPrimitive() || thing == Boolean.class)
+                this.builder.append("assert ");
+            if (Modifier.isStatic(second.getModifiers())) this.builder.append(this.getTypeName(type));
+            else this.builder.append(variable);
+            this.writeMethodUse(second);
+            if (thing.isPrimitive() && thing != boolean.class) {
+                this.builder.append(" == ");
+                this.writePrimitiveUse(thing);
+            }
+            this.builder.append(';');
+            count++;
+            if (count >= max) break;
+        }
+    }
+    
+    private boolean isInstanceSafe(Class<?> type) {
+        boolean constructor = false, method = false;
+        for (final Constructor<?> member : type.getDeclaredConstructors()) {
+            if (Modifier.isPrivate(member.getModifiers())) continue;
+            constructor = true;
+            break;
+        }
+        for (final Method member : type.getDeclaredMethods()) {
+            if (Modifier.isPrivate(member.getModifiers())) continue;
+            if (Modifier.isStatic(member.getModifiers())) continue;
+            method = true;
+            break;
+        }
+        return constructor && method;
+    }
+    
+    @Description("""
+        Generates an example constructor access and uses the result in some way.
+        All of this is generated based on what is available for the constructor.
         """)
     @GenerateExample
     protected void generateConstructor(Constructor<?> constructor, boolean extras) {
@@ -89,6 +141,7 @@ public class ExampleGenerator {
         for (final Method second : type.getDeclaredMethods()) {
             if (second.isBridge() || second.isSynthetic()) continue;
             if (!Modifier.isPublic(second.getModifiers())) continue;
+            if (Modifier.isStatic(second.getModifiers())) continue;
             final Class<?> thing = second.getReturnType();
             builder.append(System.lineSeparator());
             if (thing.isPrimitive() || thing == Boolean.class)
@@ -137,6 +190,7 @@ public class ExampleGenerator {
         for (final Method second : type.getDeclaredMethods()) {
             if (second.isBridge() || second.isSynthetic()) continue;
             if (!Modifier.isPublic(second.getModifiers())) continue;
+            if (Modifier.isStatic(second.getModifiers())) continue;
             final Class<?> thing = second.getReturnType();
             builder.append(System.lineSeparator());
             if (thing.isPrimitive() || thing == Boolean.class)
