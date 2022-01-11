@@ -143,7 +143,8 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
         this.write(stream, "<p>");
         if (target.isAnnotationPresent(Deprecated.class))
             this.write(stream, "<span class=\"badge bg-warning text-dark\"" + Utils.toolTip("Marked as unsafe to use.") + ">Deprecated</span> ");
-        if (target.isRecord()) this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A final, data-holding class.") + ">Record</strong>");
+        if (target.isRecord())
+            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A final, data-holding class.") + ">Record</strong>");
         else if (target.isEnum())
             this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A set of 'flag' value fields.") + ">Enum Class</strong>");
         else if (target.isPrimitive())
@@ -154,7 +155,8 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
             this.write(stream, "<strong class=\"d-inline-block mb-2 text-success\"" + Utils.toolTip("An abstract template to be implemented.") + ">Interface</strong>");
         else if (Modifier.isAbstract(target.getModifiers()))
             this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("An abstract class to be extended.") + ">Abstract Class</strong>");
-        else this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A regular class.") + ">Class</strong>");
+        else
+            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A regular class.") + ">Class</strong>");
         this.write(stream, "</p>");
     }
     

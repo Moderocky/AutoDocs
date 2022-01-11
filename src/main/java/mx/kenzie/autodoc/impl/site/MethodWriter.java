@@ -44,7 +44,8 @@ public class MethodWriter implements WritableElement, Element, ElementWriter {
             this.write(stream, "</h3>");
             if (Modifier.isAbstract(target.getModifiers()))
                 this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A method that needs an implementation.") + ">Abstract Method</strong>");
-            else this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A callable code trigger.") + ">Method</strong>");
+            else
+                this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A callable code trigger.") + ">Method</strong>");
         }).printTo(stream);
         this.startMainArea(stream);
         this.write(stream, Utils.getDescription(target));
