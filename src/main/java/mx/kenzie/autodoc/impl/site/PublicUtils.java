@@ -75,6 +75,10 @@ class Utils extends PublicUtils {
         return builder.toString();
     }
     
+    static String toolTip(String placement, String text) {
+        return "data-bs-toggle=\"tooltip\" data-bs-placement=\"" + placement + "\" title=\"" + text + '\"';
+    }
+    
     static String createModifiers(final int modifiers, final boolean method) {
         final StringBuilder builder = new StringBuilder();
         if (Modifier.isPublic(modifiers))
@@ -124,10 +128,6 @@ class Utils extends PublicUtils {
     
     static String toolTip(String text) {
         return "data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"" + text + '\"';
-    }
-    
-    static String toolTip(String placement, String text) {
-        return "data-bs-toggle=\"tooltip\" data-bs-placement=\"" + placement + "\" title=\"" + text + '\"';
     }
     
     static boolean ignore(AnnotatedElement target) {

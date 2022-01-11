@@ -13,12 +13,12 @@
 <body>
 <main id="body" class="container">
 <div class="row"><div class="col-lg-12"><div class="col-lg-12 flex-md-row mt-4 mb-4 p-4 border rounded shadow-sm h-md-250 position-relative"><div class="row"><div class="col-md-8 col-sm-12"><a class="navbar-brand text-dark mr-4" href="../../../../../">AutoDocs</a><div class="navbar-collapse offcanvas-collapse"><nav class="navbar navbar-expand-lg"><ol class="breadcrumb navbar-nav me-auto mb-2 mb-lg-0"><li class="breadcrumb-item"><a href="../../../../../mx/">mx</a></li><li class="breadcrumb-item"><a href="../../../../../mx/kenzie/">kenzie</a></li><li class="breadcrumb-item"><a href="../../../../../mx/kenzie/autodoc/">autodoc</a></li><li class="breadcrumb-item"><a href="../../../../../mx/kenzie/autodoc/api/">api</a></li><li class="breadcrumb-item"><a href="../../../../../mx/kenzie/autodoc/api/tools/">tools</a></li><li class="breadcrumb-item active" aria-current="page">SourceReader</li></ol></nav></div></div><div class="col-md-4 col-sm-12">
-<div class="dropdown m-1">
+<div class="dropdown m-1 d-inline">
 <button class="btn btn-primary dropdown-toggle" type="button" id="constructorMenu" data-bs-toggle="dropdown" aria-expanded="false">Constructors</button>
 <ul class="dropdown-menu" aria-labelledby="constructorMenu"><li><a class="dropdown-item" href="#constructor:SourceReader(0)">new SourceReader(0)</a></li>
 </ul>
 </div>
-<div class="dropdown m-1">
+<div class="dropdown m-1 d-inline">
 <button class="btn btn-primary dropdown-toggle" type="button" id="methodMenu" data-bs-toggle="dropdown" aria-expanded="false">Methods</button>
 <ul class="dropdown-menu" aria-labelledby="methodMenu"><li><a class="dropdown-item" href="#method:isAvailable(0)">isAvailable</a></li><li><a class="dropdown-item" href="#method:getParameterNames(1)">getParameterNames</a></li><li><a class="dropdown-item" href="#method:getParameterNames(1)">getParameterNames</a></li>
 </ul>
@@ -27,7 +27,7 @@
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 <div class="col col-lg-12 pt-4 px-4 pb-0 m-0">
-<h3 class="mb-0">SourceReader</h3><p><strong class="d-inline-block mb-2 text-primary">Class</strong></p></div>
+<h3 class="mb-0">SourceReader</h3><p><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A regular class.">Class</strong></p></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><div class="row p-2"></div><p>This tool is for reading the bytecode of a class-file to gain special insights about elements.
 It is currently used only for scouring variable and parameter names, to make method documentation clearer.</p>
 <p>In the future, this will also be used to identify simple getter/setter methods for fields
@@ -39,22 +39,22 @@ and link them accordingly.</p>
 </div>
 </div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">// Randomly-generated example
-
 assert SourceReader.isAvailable();
 SourceReader.getParameterNames(method);
 SourceReader.getParameterNames(method);
+
 </code></pre>
 </div></div>
 </div>
 </section><h2 class="border-bottom pb-2 mb-0">Constructors</h2><br /><section id="constructor:SourceReader(0)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0"><span class="text-secondary">new </span>SourceReader<span class="text-secondary"> ()</span></h3><strong class="d-inline-block mb-2 text-primary">Constructor</strong></div>
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0"><span class="text-secondary">new </span>SourceReader<span class="text-secondary"> ()</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="Creates an instance of this class.">Constructor</strong></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static">No description is available for this element.</div><div class="col-md-4 d-none d-lg-block"><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Return Type</h6><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="mx.kenzie.autodoc.api.tools.SourceReader">SourceReader</strong></p></div><div class="col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm"><h6 class="border-bottom pb-2 mb-0">Modifiers</h6><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> </p></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"></div></div></section><br /><h2 class="border-bottom pb-2 mb-0">Methods</h2><br /><section id="method:isAvailable(0)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">isAvailable<span class="text-secondary"> ()</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong></div>
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">isAvailable<span class="text-secondary"> ()</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A callable code trigger.">Method</strong></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Whether the source-reader tool is available.</p>
 <p>Most of the tool methods are designed to check this and
 return some default value before an exception is thrown,
@@ -66,7 +66,7 @@ assert SourceReader.isAvailable();
 </div></div></div></section><section id="method:getParameterNames(1)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">getParameterNames<span class="text-secondary"> (Method)</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong></div>
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">getParameterNames<span class="text-secondary"> (Method)</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A callable code trigger.">Method</strong></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Scours the compiled source debug information for the pre-compile parameter names.</p>
 <p>While these are supposed to be available to the JVM,
 the class-file structure changed after Java 1.6 and the JVM implementation was never updated.</p>
@@ -86,7 +86,7 @@ final String[] string = SourceReader.getParameterNames(method);
 </div></div></div></section><section id="method:getParameterNames(1)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">getParameterNames<span class="text-secondary"> (Constructor)</span></h3><strong class="d-inline-block mb-2 text-primary">Method</strong></div>
+<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">getParameterNames<span class="text-secondary"> (Constructor)</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A callable code trigger.">Method</strong></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Scours the compiled source debug information for the pre-compile parameter names.</p>
 <p>While these are supposed to be available to the JVM,
 the class-file structure changed after Java 1.6 and the JVM implementation was never updated.</p>

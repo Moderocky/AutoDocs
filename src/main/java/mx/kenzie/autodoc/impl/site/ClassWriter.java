@@ -142,19 +142,19 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
     protected void writeType(OutputStream stream) throws IOException {
         this.write(stream, "<p>");
         if (target.isAnnotationPresent(Deprecated.class))
-            this.write(stream, "<span class=\"badge bg-warning text-dark\">Deprecated</span> ");
-        if (target.isRecord()) this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Record</strong>");
+            this.write(stream, "<span class=\"badge bg-warning text-dark\"" + Utils.toolTip("Marked as unsafe to use.") + ">Deprecated</span> ");
+        if (target.isRecord()) this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A final, data-holding class.") + ">Record</strong>");
         else if (target.isEnum())
-            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Enum</strong>");
+            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A set of 'flag' value fields.") + ">Enum Class</strong>");
         else if (target.isPrimitive())
-            this.write(stream, "<strong class=\"d-inline-block mb-2 text-info\">Primitive</strong>");
+            this.write(stream, "<strong class=\"d-inline-block mb-2 text-info\"" + Utils.toolTip("A raw data type with no methods.") + ">Primitive</strong>");
         else if (target.isAnnotation())
-            this.write(stream, "<strong class=\"d-inline-block mb-2 text-warning\">Annotation</strong>");
+            this.write(stream, "<strong class=\"d-inline-block mb-2 text-warning\"" + Utils.toolTip("A tag to be placed on elements.") + ">Annotation</strong>");
         else if (target.isInterface())
-            this.write(stream, "<strong class=\"d-inline-block mb-2 text-success\">Interface</strong>");
+            this.write(stream, "<strong class=\"d-inline-block mb-2 text-success\"" + Utils.toolTip("An abstract template to be implemented.") + ">Interface</strong>");
         else if (Modifier.isAbstract(target.getModifiers()))
-            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Abstract Class</strong>");
-        else this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Class</strong>");
+            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("An abstract class to be extended.") + ">Abstract Class</strong>");
+        else this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A regular class.") + ">Class</strong>");
         this.write(stream, "</p>");
     }
     

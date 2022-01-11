@@ -159,10 +159,26 @@ public record PageWriter(Class<?> root, WebsiteDetails details, String title, St
         this.write(target, "</div>");
     }
     
+    private void writeConstructorMenu(OutputStream stream) throws IOException {
+        final List<Constructor<?>> list = Utils.getConstructors(root);
+        if (list.size() < 1) return;
+        this.write(stream, "\n<div class=\"dropdown m-1 d-inline\">");
+        this.write(stream, "\n<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"constructorMenu\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Constructors</button>");
+        this.write(stream, "\n<ul class=\"dropdown-menu\" aria-labelledby=\"constructorMenu\">");
+        for (final Constructor<?> constructor : list) {
+            this.write(stream, "<li>");
+            this.write(stream, "<a class=\"dropdown-item\" href=\"#" + Utils.getId(constructor) + "\">new " + constructor.getDeclaringClass()
+                .getSimpleName() + "(" + constructor.getParameterCount() + ")" + "</a>");
+            this.write(stream, "</li>");
+        }
+        this.write(stream, "\n</ul>");
+        this.write(stream, "\n</div>");
+    }
+    
     private void writeFieldMenu(OutputStream stream) throws IOException {
         final List<Field> list = Utils.getFields(root);
         if (list.size() < 1) return;
-        this.write(stream, "\n<div class=\"dropdown m-1\">");
+        this.write(stream, "\n<div class=\"dropdown m-1 d-inline\">");
         this.write(stream, "\n<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"fieldMenu\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Fields</button>");
         this.write(stream, "\n<ul class=\"dropdown-menu\" aria-labelledby=\"fieldMenu\">");
         for (final Field field : list) {
@@ -174,25 +190,10 @@ public record PageWriter(Class<?> root, WebsiteDetails details, String title, St
         this.write(stream, "\n</div>");
     }
     
-    private void writeConstructorMenu(OutputStream stream) throws IOException {
-        final List<Constructor<?>> list = Utils.getConstructors(root);
-        if (list.size() < 1) return;
-        this.write(stream, "\n<div class=\"dropdown m-1\">");
-        this.write(stream, "\n<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"constructorMenu\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Constructors</button>");
-        this.write(stream, "\n<ul class=\"dropdown-menu\" aria-labelledby=\"constructorMenu\">");
-        for (final Constructor<?> constructor : list) {
-            this.write(stream, "<li>");
-            this.write(stream, "<a class=\"dropdown-item\" href=\"#" + Utils.getId(constructor) + "\">new " + constructor.getDeclaringClass().getSimpleName() + "(" + constructor.getParameterCount() + ")" + "</a>");
-            this.write(stream, "</li>");
-        }
-        this.write(stream, "\n</ul>");
-        this.write(stream, "\n</div>");
-    }
-    
     private void writeMethodMenu(OutputStream stream) throws IOException {
         final List<Method> list = Utils.getMethods(root);
         if (list.size() < 1) return;
-        this.write(stream, "\n<div class=\"dropdown m-1\">");
+        this.write(stream, "\n<div class=\"dropdown m-1 d-inline\">");
         this.write(stream, "\n<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"methodMenu\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">Methods</button>");
         this.write(stream, "\n<ul class=\"dropdown-menu\" aria-labelledby=\"methodMenu\">");
         for (final Method method : list) {

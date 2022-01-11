@@ -34,12 +34,13 @@ public class FieldWriter implements WritableElement, Element, ElementWriter {
         this.startBlock(stream);
         ((TitleArea) thing -> {
             this.write(stream, "<h3 class=\"mb-0\">");
-//            this.write(stream, "<span class=\"text-secondary text-decoration-none\">");
-//            this.write(stream, target.getType().getSimpleName());
-//            this.write(stream, "</span> ");
             this.write(stream, target.getName());
             this.write(stream, "</h3>");
-            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Field</strong>");
+            if (target.isEnumConstant()) {
+                this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A flag.") + ">Enum</strong>");
+            } else {
+                this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A value-holding member.") + ">Field</strong>");
+            }
         }).printTo(stream);
         this.startMainArea(stream);
         this.write(stream, Utils.getDescription(target));

@@ -7,6 +7,7 @@ import mx.kenzie.autodoc.api.tools.SourceReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,9 @@ public class MethodWriter implements WritableElement, Element, ElementWriter {
             this.write(stream, "<span class=\"text-secondary\">" + this.getHeader());
             this.write(stream, "</span>");
             this.write(stream, "</h3>");
-            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Method</strong>");
+            if (Modifier.isAbstract(target.getModifiers()))
+                this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A method that needs an implementation.") + ">Abstract Method</strong>");
+            else this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A callable code trigger.") + ">Method</strong>");
         }).printTo(stream);
         this.startMainArea(stream);
         this.write(stream, Utils.getDescription(target));

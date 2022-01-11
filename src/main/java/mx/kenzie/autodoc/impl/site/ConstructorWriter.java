@@ -42,7 +42,7 @@ public class ConstructorWriter implements WritableElement, Element, ElementWrite
             this.write(stream, "<span class=\"text-secondary\">" + this.getHeader());
             this.write(stream, "</span>");
             this.write(stream, "</h3>");
-            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Constructor</strong>");
+            this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("Creates an instance of this class.") + ">Constructor</strong>");
         }).printTo(stream);
         this.startMainArea(stream);
         this.write(stream, Utils.getDescription(target));

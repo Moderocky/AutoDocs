@@ -89,7 +89,6 @@ public class ExampleGenerator {
             if (second.isBridge() || second.isSynthetic()) continue;
             if (!Modifier.isPublic(second.getModifiers())) continue;
             final Class<?> thing = second.getReturnType();
-            this.builder.append(System.lineSeparator());
             if (thing.isPrimitive() || thing == Boolean.class)
                 this.builder.append("assert ");
             if (Modifier.isStatic(second.getModifiers())) this.builder.append(this.getTypeName(type));
@@ -100,6 +99,7 @@ public class ExampleGenerator {
                 this.writePrimitiveUse(thing);
             }
             this.builder.append(';');
+            this.builder.append(System.lineSeparator());
             count++;
             if (count >= max) break;
         }
