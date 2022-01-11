@@ -5,6 +5,9 @@ import mx.kenzie.autodoc.api.note.GenerateExample;
 import mx.kenzie.autodoc.impl.site.PublicUtils;
 
 import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Description("""
@@ -45,6 +48,7 @@ public class ExampleGenerator {
         if (element instanceof Method method) this.generateMethod(method, false);
         else if (element instanceof Field field) this.generateField(field, false);
         else if (element instanceof Constructor constructor) this.generateConstructor(constructor, false);
+        else if (element instanceof Class<?> type && type.isAnnotation()) this.generateAnnotation(type, false);
         else if (element instanceof Class<?> type) this.generateClass(type, false);
         return builder.toString();
     }
@@ -66,8 +70,36 @@ public class ExampleGenerator {
         if (element instanceof Method method) this.generateMethod(method, true);
         else if (element instanceof Field field) this.generateField(field, true);
         else if (element instanceof Constructor constructor) this.generateConstructor(constructor, true);
+        else if (element instanceof Class<?> type && type.isAnnotation()) this.generateAnnotation(type, true);
         else if (element instanceof Class<?> type) this.generateClass(type, true);
         return builder.toString();
+    }
+    
+    @Description("""
+        Generates an example class access and uses the result in some way.
+        All of this is generated based on what is available for the class.
+        
+        This will attempt to generate a range of static and dynamic examples.
+        """)
+    @GenerateExample
+    protected void generateAnnotation(Class<?> type, boolean extras) {
+        this.builder.append('@');
+        this.builder.append(this.getTypeName(type))
+            .append('(');
+        boolean first = true;
+        final List<Method> methods = new ArrayList<>(Arrays.asList(type.getDeclaredMethods()));
+        methods.removeIf(method -> method.getDefaultValue() != null);
+        if (methods.size() == 1 && methods.get(0).getName().equals("value")) {
+            this.writeLiteralUse(methods.get(0).getReturnType());
+        } else for (final Method method : methods) {
+            if (!first) builder.append(", ");
+            first = false;
+            this.builder
+                .append(method.getName())
+                .append(" = ");
+            this.writeLiteralUse(method.getReturnType());
+        }
+        this.builder.append(')');
     }
     
     @Description("""
@@ -293,6 +325,18 @@ public class ExampleGenerator {
         final String name = type.getCanonicalName();
         if (name.indexOf('.') < 0) return name;
         return name.substring(name.lastIndexOf('.') + 1);
+    }
+    
+    private void writeLiteralUse(Class<?> type) {
+        if (type.isPrimitive()) {
+            this.writePrimitiveUse(type);
+            return;
+        }
+        if (type.isArray()) this.builder.append("new ").append(this.getTypeName(type)).append("[0]");
+        else if (type == String.class) this.builder.append("\"something\"");
+        else if (type.isEnum()) {
+            this.builder.append(type.getEnumConstants()[0].toString());
+        }
     }
     
     private void writeObjectUse(Class<?> type) {

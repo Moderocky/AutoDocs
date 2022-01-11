@@ -42,7 +42,9 @@ public class MethodWriter implements WritableElement, Element, ElementWriter {
             this.write(stream, "<span class=\"text-secondary\">" + this.getHeader());
             this.write(stream, "</span>");
             this.write(stream, "</h3>");
-            if (Modifier.isAbstract(target.getModifiers()))
+            if (target.getDeclaringClass().isAnnotation())
+                this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("An annotation parameter.") + ">Input</strong>");
+            else if (Modifier.isAbstract(target.getModifiers()))
                 this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A method that needs an implementation.") + ">Abstract Method</strong>");
             else
                 this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A callable code trigger.") + ">Method</strong>");
@@ -52,7 +54,7 @@ public class MethodWriter implements WritableElement, Element, ElementWriter {
         // start params
         if (target.getParameterCount() > 0) {
             this.write(stream, "<div class=\"pt-2 col-sm-12\">");
-            final String id = "params" + Math.abs(target.hashCode());
+            final String id = "params" + System.identityHashCode(target);
             this.write(stream, "<button class=\"d-inline btn btn-outline-primary\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#" + id + "\" aria-expanded=\"false\" aria-controls=\"" + id + "\">");
             this.write(stream, "Parameters</button>");
             this.write(stream, "<div class=\"collapse\" id=\"" + id + "\">");
@@ -63,12 +65,19 @@ public class MethodWriter implements WritableElement, Element, ElementWriter {
         // end params
         this.write(stream, "</div>");
         // side block
-        this.write(stream, "<div class=\"col-md-4 d-none d-lg-block\">");
-        new RightTextDetail("Return Type", Utils.hierarchyLabel(target.getReturnType()))
-            .printTo(stream);
-        new RightTextDetail("Modifiers", Utils.createModifiers(target.getModifiers(), true))
-            .printTo(stream);
-        this.write(stream, "</div>");
+        new RightBox() {
+            @Override
+            public void write(OutputStream stream) throws IOException {
+                new RightTextDetail("Return Type", Utils.hierarchyLabel(target.getReturnType()))
+                    .printTo(stream);
+                new RightTextDetail("Modifiers", Utils.createModifiers(target.getModifiers(), true))
+                    .printTo(stream);
+                if (target.getDeclaringClass().isAnnotation() && target.getDefaultValue() != null) {
+                    new RightTextDetail("Default Value", "<code>" + target.getDefaultValue() + "</code>")
+                        .printTo(stream);
+                }
+            }
+        }.printTo(stream);
         // end side block
         this.write(stream, "</div>");
         this.endBlock(stream);
@@ -78,6 +87,7 @@ public class MethodWriter implements WritableElement, Element, ElementWriter {
     }
     
     private String getHeader() {
+        if (target.getDeclaringClass().isAnnotation()) return " = ...";
         final StringBuilder builder = new StringBuilder();
         builder.append(" (");
         final List<String> list = new ArrayList<>();

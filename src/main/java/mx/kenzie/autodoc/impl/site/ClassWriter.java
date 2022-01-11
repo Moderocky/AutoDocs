@@ -51,11 +51,15 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
         this.write(stream, Utils.getWarnings(target));
         this.write(stream, Utils.getDescription(target));
         this.write(stream, "\n</div>");
-        this.write(stream, "\n<div class=\"col-lg-4 col-sm-12\">");
-        this.writeSupers(stream);
-        new RightTextDetail("Modifiers", Utils.createModifiers(target.getModifiers(), false))
-            .printTo(stream);
-        this.write(stream, "\n</div>");
+        new RightBox() {
+            @Override
+            public void write(OutputStream stream) throws IOException {
+                
+                writeSupers(stream);
+                new RightTextDetail("Modifiers", Utils.createModifiers(target.getModifiers(), false))
+                    .printTo(stream);
+            }
+        }.printTo(stream);
         this.write(stream, "\n</div>");
         this.endBlock(stream);
         this.write(stream, Utils.getExamples(target));
@@ -68,23 +72,17 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
     
     protected void writeSupers(OutputStream stream) throws IOException {
         final Class<?>[] interfaces = target.getInterfaces();
-        if (interfaces.length > 0 || target.getSuperclass() != null) {
-            this.write(stream, "<div class=\"col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm\">");
-            if (!target.isInterface() && !target.isAnnotation()) {
-                this.write(stream, "<h6 class=\"border-bottom pb-2 mb-0\">Extends</h6>");
-                this.write(stream, "<p class=\"pb-3 mb-0 small lh-sm\">");
-                this.write(stream, Utils.hierarchyLabel(target.getSuperclass()));
-                this.write(stream, "</p>");
+        if (target.getSuperclass() != null && !target.isInterface() && !target.isAnnotation()) {
+            new RightTextDetail("Extends", Utils.hierarchyLabel(target.getSuperclass()))
+                .printTo(stream);
+        }
+        if (interfaces.length > 0) {
+            final StringBuilder builder = new StringBuilder();
+            for (final Class<?> type : interfaces) {
+                builder.append(Utils.hierarchyLabel(type));
             }
-            if (interfaces.length > 0) {
-                this.write(stream, "<h6 class=\"border-bottom pb-2 mb-0\">Implements</h6>");
-                for (final Class<?> type : interfaces) {
-                    this.write(stream, "<p class=\"pb-3 mb-0 small lh-sm\">");
-                    this.write(stream, Utils.hierarchyLabel(type));
-                    this.write(stream, "</p>");
-                }
-            }
-            this.write(stream, "</div>");
+            new RightTextDetail("Implements", builder.toString())
+                .printTo(stream);
         }
     }
     

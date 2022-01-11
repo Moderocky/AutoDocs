@@ -12,6 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR})
 @Repeatable(Warning.Multiple.class)
+@GenerateExample
 public @interface Warning {
     
     @Ignore

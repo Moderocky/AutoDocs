@@ -69,8 +69,29 @@ abstract class RightDetail implements PageElement {
     @Ignore
     @Override
     public void start(OutputStream stream) throws IOException {
-        this.write(stream, "<div class=\"col-md-6 col-lg-12 my-3 p-3 bg-body rounded shadow-sm\">");
-        this.write(stream, "<h6 class=\"border-bottom pb-2 mb-0\">" + title + "</h6>");
+        this.write(stream, "<div class=\"card m-2 bg-body border-0 rounded shadow-sm\">");
+        this.write(stream, "<div class=\"card-header\">" + title + "</div>");
+        this.write(stream, "<div class=\"card-body\">");
+    }
+    
+    @Ignore
+    @Override
+    public void end(OutputStream stream) throws IOException {
+        this.write(stream, "</div>");
+        this.write(stream, "</div>");
+        
+    }
+}
+
+abstract class RightBox implements PageElement {
+    
+    public RightBox() {
+    }
+    
+    @Ignore
+    @Override
+    public void start(OutputStream stream) throws IOException {
+        this.write(stream, "\n<div class=\"col-lg-4 col-md-12 card-deck\">");
     }
     
     @Ignore
