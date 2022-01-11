@@ -44,7 +44,7 @@ interface TitleArea extends PageElement {
     @Ignore
     @Override
     default void start(OutputStream stream) throws IOException {
-        this.write(stream, "\n<div class=\"col col-lg-12 pt-4 px-4 pb-0 m-0\">");
+        this.write(stream, "\n<div class=\"col bg-light col-lg-12 pt-4 px-4 pb-0 m-0\">");
     }
     
     @Ignore
@@ -69,7 +69,7 @@ abstract class RightDetail implements PageElement {
     @Ignore
     @Override
     public void start(OutputStream stream) throws IOException {
-        this.write(stream, "<div class=\"card m-2 bg-body border-0 rounded shadow-sm\">");
+        this.write(stream, "<div class=\"card m-2 mx-3 bg-body rounded shadow-sm\">");
         this.write(stream, "<div class=\"card-header\">" + title + "</div>");
         this.write(stream, "<div class=\"card-body\">");
     }

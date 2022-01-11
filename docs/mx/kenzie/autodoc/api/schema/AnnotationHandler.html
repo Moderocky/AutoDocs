@@ -21,14 +21,14 @@
 <section id="class:AnnotationHandler"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-<div class="col col-lg-12 pt-4 px-4 pb-0 m-0">
+<div class="col bg-light col-lg-12 pt-4 px-4 pb-0 m-0">
 <h3 class="mb-0">AnnotationHandler</h3><p><strong class="d-inline-block mb-2 text-success"data-bs-toggle="tooltip" data-bs-placement="right" title="An abstract template to be implemented.">Interface</strong></p></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><div class="row p-2"></div><p>A customisable handler for parsing annotations.
 This can be used to add extra details to the output.</p>
 <p>These handlers are specific to an output schema.</p>
 
 </div>
-<div class="col-lg-4 col-md-12 card-deck"><div class="card m-2 bg-body border-0 rounded shadow-sm"><div class="card-header">Modifiers</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Must be overridden by another class.">abstract</span> </p></div></div></div>
+<div class="col-lg-4 col-md-12 card-deck"><div class="card m-2 mx-3 bg-body rounded shadow-sm"><div class="card-header">Modifiers</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Must be overridden by another class.">abstract</span> </p></div></div></div>
 </div>
 </div><div class="col col-lg-8 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">class MyHandler implements AnnotationHandler {
     @Override
@@ -48,15 +48,15 @@ This can be used to add extra details to the output.</p>
 </section><h2 class="border-bottom pb-2 mb-0">Methods</h2><br /><section id="method:state(0)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">state<span class="text-secondary"> ()</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A callable code trigger.">Method</strong></div>
+<div class="col bg-light col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">state<span class="text-secondary"> ()</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A callable code trigger.">Method</strong></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>The state where this is to be printed.
 This is designed for use with the website schema.</p>
 </div>
-<div class="col-lg-4 col-md-12 card-deck"><div class="card m-2 bg-body border-0 rounded shadow-sm"><div class="card-header">Return Type</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="mx.kenzie.autodoc.api.schema.AnnotationHandler$State">State</strong></p></div></div><div class="card m-2 bg-body border-0 rounded shadow-sm"><div class="card-header">Modifiers</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> </p></div></div></div></div>
+<div class="col-lg-4 col-md-12 card-deck"><div class="card m-2 mx-3 bg-body rounded shadow-sm"><div class="card-header">Return Type</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-primary"data-bs-toggle="tooltip" data-bs-placement="left" title="mx.kenzie.autodoc.api.schema.AnnotationHandler$State">State</strong></p></div></div><div class="card m-2 mx-3 bg-body rounded shadow-sm"><div class="card-header">Modifiers</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> </p></div></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"></div></div></section><section id="method:parse(2)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">parse<span class="text-secondary"> (Annotation, OutputStream)</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A method that needs an implementation.">Abstract Method</strong></div>
+<div class="col bg-light col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">parse<span class="text-secondary"> (Annotation, OutputStream)</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A method that needs an implementation.">Abstract Method</strong></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Pretty-writes the content of this annotation to the output stream.
 This will not differentiate between the single and multiple form of the annotation.</p>
 <div class="pt-2 col-sm-12"><button class="d-inline btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#params1416233903" aria-expanded="false" aria-controls="params1416233903">Parameters</button><div class="collapse" id="params1416233903">
@@ -70,11 +70,11 @@ This will not differentiate between the single and multiple form of the annotati
 </tr>
 </tbody>
 </table></div></div></div>
-<div class="col-lg-4 col-md-12 card-deck"><div class="card m-2 bg-body border-0 rounded shadow-sm"><div class="card-header">Return Type</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="void">void</strong></p></div></div><div class="card m-2 bg-body border-0 rounded shadow-sm"><div class="card-header">Modifiers</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Must be overridden by another class.">abstract</span> </p></div></div></div></div>
+<div class="col-lg-4 col-md-12 card-deck"><div class="card m-2 mx-3 bg-body rounded shadow-sm"><div class="card-header">Return Type</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="void">void</strong></p></div></div><div class="card m-2 mx-3 bg-body rounded shadow-sm"><div class="card-header">Modifiers</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Must be overridden by another class.">abstract</span> </p></div></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"></div></div></section><section id="method:accepts(1)"><div class="row mb-2">
 <div class="col-lg-8 col-md-12 col-sm-12">
 <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-<div class="col col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">accepts<span class="text-secondary"> (Annotation)</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A method that needs an implementation.">Abstract Method</strong></div>
+<div class="col bg-light col-lg-12 pt-4 px-4 pb-0 m-0"><h3 class="mb-0">accepts<span class="text-secondary"> (Annotation)</span></h3><strong class="d-inline-block mb-2 text-primary"data-bs-toggle="tooltip" data-bs-placement="right" title="A method that needs an implementation.">Abstract Method</strong></div>
 <div class="col col-lg-8 col-sm-12 pt-1 pb-4 px-4 d-flex flex-column position-static"><p>Determines whether this handler can process the given annotation.
 This can be used as a type (or multi-type check.)</p>
 <p>If this passes, the <a href="#method:parse(2)">parse</a> method will be called.</p>
@@ -87,7 +87,7 @@ This can be used as a type (or multi-type check.)</p>
 </tr>
 </tbody>
 </table></div></div></div>
-<div class="col-lg-4 col-md-12 card-deck"><div class="card m-2 bg-body border-0 rounded shadow-sm"><div class="card-header">Return Type</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="boolean">boolean</strong></p></div></div><div class="card m-2 bg-body border-0 rounded shadow-sm"><div class="card-header">Modifiers</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Must be overridden by another class.">abstract</span> </p></div></div></div></div>
+<div class="col-lg-4 col-md-12 card-deck"><div class="card m-2 mx-3 bg-body rounded shadow-sm"><div class="card-header">Return Type</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><strong class="d-block text-info"data-bs-toggle="tooltip" data-bs-placement="left" title="boolean">boolean</strong></p></div></div><div class="card m-2 mx-3 bg-body rounded shadow-sm"><div class="card-header">Modifiers</div><div class="card-body"><p class="pb-3 mb-0 small lh-sm"><span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Accessible from anywhere.">public</span> <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Must be overridden by another class.">abstract</span> </p></div></div></div></div>
 </div><div class="col col-lg-4 col-sm-12 col-md-12"><div class="rounded bg-dark text-light"><pre><code class="language-java">public boolean accepts(Annotation annotation) {
     return annotation instanceof MyAnnotation;
 }

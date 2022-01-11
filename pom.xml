@@ -6,7 +6,7 @@
 
     <groupId>mx.kenzie</groupId>
     <artifactId>autodocs</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>AutoDocs</name>
     <description>A library for generating automatic documentation.</description>
