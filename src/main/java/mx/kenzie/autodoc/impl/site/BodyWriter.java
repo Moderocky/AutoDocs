@@ -39,8 +39,11 @@ public class BodyWriter implements WritableElement, Element, ElementWriter {
             <div class="col col-lg-12 col-sm-12">""");
         this.startBlock(stream);
         this.startMainArea(stream);
+        this.write(stream, "\n<div class=\"pt-3\">");
         this.write(stream, Utils.markDown(body));
+        this.write(stream, "\n</div>");
         this.endBlock(stream);
+        this.write(stream, "\n</div>");
         this.write(stream, "\n</div>");
         this.write(stream, "\n</div>");
         this.write(stream, "\n</section>");

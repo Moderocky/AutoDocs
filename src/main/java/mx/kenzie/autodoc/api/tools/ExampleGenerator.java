@@ -309,7 +309,6 @@ public class ExampleGenerator {
             this.writeConstructorUse(constructor);
             return;
         }
-        System.out.println(type.getSimpleName()); // todo
         this.builder.append(PublicUtils.createVarName(type));
     }
     
@@ -325,7 +324,6 @@ public class ExampleGenerator {
         else if (type == char.class) builder.append('c');
         else if (type == boolean.class) builder.append(false);
         else {
-            System.out.println(type.getSimpleName()); // todo
             builder.append("null");
         }
     }

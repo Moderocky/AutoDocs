@@ -164,6 +164,10 @@ public final class AutoDocs {
             if (type.isAnnotationPresent(Ignore.class)) continue;
             if (type.getPackageName().startsWith(namespace)) list.add(type);
         }
+        final Comparator<Class<?>> first = Comparator.comparing(Class::getPackageName);
+        final Comparator<Class<?>> second = Comparator.comparing(Class::getModifiers);
+        final Comparator<Class<?>> third = Comparator.comparing(Class::getSimpleName);
+        list.sort(first.thenComparing(second).thenComparing(third));
         return list;
     }
     

@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Description("""
     Writes a list for a package index page.
@@ -65,14 +66,23 @@ public class ClassIndexWriter implements WritableElement, Element, ElementWriter
     }
     
     protected void writeIndices(OutputStream stream) throws IOException {
+        String currentPackage = null;
         for (final Class<?> type : classes) {
-            this.write(stream, "<h5><a class=\"text-decoration-none text-dark\" href=\"" + Utils.getTopPath(namespace) + Utils.getFilePath(type) + "\"><span class=\"fa fa-link\"></span> " + type.getCanonicalName() + "</a></h5>");
+            if (Utils.ignore(type)) continue;
+            final String namespace = type.getPackageName();
+            if (!Objects.equals(currentPackage, namespace)) {
+                currentPackage = namespace;
+                this.write(stream, "<hr />");
+                this.write(stream, "<h5 class=\"mb-4\">" + namespace + "</h5>");
+            }
+            this.write(stream, "<h6 class=\"mx-4\"><a class=\"text-decoration-none text-dark\" href=\"" + Utils.getTopPath(this.namespace) + Utils.getFilePath(type) + "\"><span class=\"fa fa-link\"></span> ");
             this.writeType(type, stream);
+            this.write(stream, " " + type.getSimpleName() + "</a></h6>");
         }
     }
     
     protected void writeType(Class<?> target, OutputStream stream) throws IOException {
-        this.write(stream, "<p>");
+//        this.write(stream, "<p>");
         if (target.isAnnotationPresent(Deprecated.class))
             this.write(stream, "<span class=\"badge bg-warning text-dark\">Deprecated</span> ");
         if (target.isRecord()) this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Record</strong>");
@@ -87,6 +97,6 @@ public class ClassIndexWriter implements WritableElement, Element, ElementWriter
         else if (Modifier.isAbstract(target.getModifiers()))
             this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Abstract Class</strong>");
         else this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\">Class</strong>");
-        this.write(stream, "</p>");
+//        this.write(stream, "</p>");
     }
 }
