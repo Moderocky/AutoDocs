@@ -6,6 +6,7 @@ import mx.kenzie.autodoc.api.tools.SourceReader;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
@@ -16,9 +17,11 @@ import java.util.Map;
 public class MethodWriter implements WritableElement, Element, ElementWriter {
     
     protected final Method target;
+    protected final Map<AnnotatedElement, String> javadocs;
     
-    public MethodWriter(Method target) {
+    public MethodWriter(Method target, Map<AnnotatedElement, String> javadocs) {
         this.target = target;
+        this.javadocs = javadocs;
     }
     
     @Override
@@ -50,7 +53,7 @@ public class MethodWriter implements WritableElement, Element, ElementWriter {
                 this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("A callable code trigger.") + ">Method</strong>");
         }).printTo(stream);
         this.startMainArea(stream);
-        this.write(stream, Utils.getDescription(target));
+        this.write(stream, Utils.getDescription(target, javadocs));
         // start params
         if (target.getParameterCount() > 0) {
             this.write(stream, "<div class=\"pt-2 col-sm-12\">");

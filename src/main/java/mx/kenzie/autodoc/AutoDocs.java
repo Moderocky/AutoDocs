@@ -53,11 +53,11 @@ public final class AutoDocs {
         """)
     @Example("""
         // Multiple packages can be used for filtering. Specify an empty "" string to catch everything.
-        AutoDocs.generateDocumentation(title, pageDescription, markdownBody, outputFolder, sourceJar, "org.example", "my.package");
+        AutoDocs.generateDocumentation(title, pageDescription, markdownBody, outputFolder, sourceJar, source, "org.example", "my.package");
         """)
-    public static void generateDocumentation(String title, String description, String body, File output, File source, String... namespaces) throws IOException {
+    public static void generateDocumentation(String title, String description, String body, File output, File exec, File source, String... namespaces) throws IOException {
         final List<Class<?>> list = new ArrayList<>();
-        final URL jar = source.toURI().toURL();
+        final URL jar = exec.toURI().toURL();
         for (final String namespace : namespaces) {
             try (final ZipInputStream zip = new ZipInputStream(jar.openStream())) {
                 while (true) {
@@ -80,7 +80,7 @@ public final class AutoDocs {
             }
         }
         final Class<?>[] classes = list.toArray(new Class[0]);
-        generateDocumentation(title, description, body, output, classes);
+        generateDocumentation(title, description, body, output, source, classes);
     }
     
     @Description("""
@@ -97,9 +97,9 @@ public final class AutoDocs {
         """)
     @Example("""
         // Multiple packages can be used for filtering. Specify an empty "" string to catch everything.
-        AutoDocs.generateDocumentation(title, pageDescription, markdownBody, outputFolder, MyClass.class, YourClass.class);
+        AutoDocs.generateDocumentation(title, pageDescription, markdownBody, outputFolder, sourceFolder, MyClass.class, YourClass.class);
         """)
-    public static void generateDocumentation(String title, String description, String body, File output, Class<?>... classes) throws IOException {
+    public static void generateDocumentation(String title, String description, String body, File output, File source, Class<?>... classes) throws IOException {
         for (final Class<?> type : classes) {
             final String name = type.getName().replace('.', File.separatorChar);
             final File file = new File(output, name + ".html");
@@ -116,7 +116,7 @@ public final class AutoDocs {
                 type.getName(),
                 type.getPackageName());
             try (final FileOutputStream stream = new FileOutputStream(file)) {
-                writer.write(stream, new ClassWriter(type));
+                writer.write(stream, new ClassWriter(type, source));
             }
         }
         final Set<String> directories = new HashSet<>();
@@ -188,7 +188,7 @@ public final class AutoDocs {
         // Multiple packages can be used for filtering. Specify an empty "" string to catch everything.
         AutoDocs.generateDocumentation(title, pageDescription, markdownBody, outputFolder, "org.example", "org.thing");
         """)
-    public static void generateDocumentation(String title, String description, String body, File output, String... namespaces) throws IOException {
+    public static void generateDocumentation(String title, String description, String body, File output, File sourceFolder, String... namespaces) throws IOException {
         final List<Class<?>> list = new ArrayList<>();
         final CodeSource source = AutoDocs.class.getProtectionDomain().getCodeSource();
         if (source == null) return;
@@ -212,7 +212,7 @@ public final class AutoDocs {
                 }
             }
         final Class<?>[] classes = list.toArray(new Class[0]);
-        generateDocumentation(title, description, body, output, classes);
+        generateDocumentation(title, description, body, output, sourceFolder, classes);
     }
     
 }

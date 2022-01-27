@@ -6,6 +6,7 @@ import mx.kenzie.autodoc.api.tools.SourceReader;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -15,9 +16,11 @@ import java.util.Map;
 public class ConstructorWriter implements WritableElement, Element, ElementWriter {
     
     protected final Constructor<?> target;
+    protected final Map<AnnotatedElement, String> javadocs;
     
-    public ConstructorWriter(Constructor<?> target) {
+    public ConstructorWriter(Constructor<?> target, Map<AnnotatedElement, String> javadocs) {
         this.target = target;
+        this.javadocs = javadocs;
     }
     
     @Override
@@ -45,7 +48,7 @@ public class ConstructorWriter implements WritableElement, Element, ElementWrite
             this.write(stream, "<strong class=\"d-inline-block mb-2 text-primary\"" + Utils.toolTip("Creates an instance of this class.") + ">Constructor</strong>");
         }).printTo(stream);
         this.startMainArea(stream);
-        this.write(stream, Utils.getDescription(target));
+        this.write(stream, Utils.getDescription(target, javadocs));
         // start params
         if (target.getParameterCount() > 0) {
             this.write(stream, "<div class=\"pt-2 col-sm-12\">");

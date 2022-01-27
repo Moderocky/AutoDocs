@@ -34,6 +34,43 @@ public class StringReader implements Iterable<Character> {
         return this.position < this.characters.length && this.position >= 0;
     }
     
+    public String readWord() {
+        if (!this.canRead()) return "";
+        final StringBuilder builder = new StringBuilder();
+        char c;
+        do {
+            builder.append(this.current());
+            if (this.canRead()) this.rotate();
+        } while (this.canRead()
+            && (c = this.characters[position]) != ' '
+            && c != '\n'
+            && c != '\t'
+            && c != '\r'
+        );
+        return builder.toString();
+    }
+    
+    public char current() {
+        if (this.canRead()) return this.characters[this.position];
+        else throw new RuntimeException("Limit exceeded.");
+    }
+    
+    public char rotate() {
+        if (this.canRead()) return this.characters[this.position++];
+        else throw new RuntimeException("Limit exceeded!");
+    }
+    
+    public String trim() {
+        final StringBuilder builder = new StringBuilder();
+        char c;
+        while (this.canRead() && ((c = this.characters[position]) == ' '
+            || c == '\n'
+            || c == '\t'
+            || c == '\r'
+        )) builder.append(this.rotate());
+        return builder.toString();
+    }
+    
     public int indexOf(char c) {
         return string.indexOf(c, position);
     }
@@ -56,6 +93,16 @@ public class StringReader implements Iterable<Character> {
         for (builder = new StringBuilder(); this.canRead(); ++this.position) {
             char test = this.characters[this.position];
             if (c == test) break;
+            builder.append(test);
+        }
+        return builder.toString();
+    }
+    
+    public synchronized String readUntil(String string) {
+        final StringBuilder builder;
+        for (builder = new StringBuilder(); this.canRead(); ++this.position) {
+            char test = this.characters[this.position];
+            if (this.string.startsWith(string, this.position)) break;
             builder.append(test);
         }
         return builder.toString();
@@ -149,11 +196,6 @@ public class StringReader implements Iterable<Character> {
         return this.characters.length;
     }
     
-    public char current() {
-        if (this.canRead()) return this.characters[this.position];
-        else throw new RuntimeException("Limit exceeded.");
-    }
-    
     public char previous() {
         if (this.position - 1 >= 0) return this.characters[this.position - 1];
         else throw new RuntimeException("Limit exceeded!");
@@ -161,11 +203,6 @@ public class StringReader implements Iterable<Character> {
     
     public char next() {
         if (this.position + 1 < this.characters.length) return this.characters[this.position + 1];
-        else throw new RuntimeException("Limit exceeded!");
-    }
-    
-    public char rotate() {
-        if (this.canRead()) return this.characters[this.position++];
         else throw new RuntimeException("Limit exceeded!");
     }
     

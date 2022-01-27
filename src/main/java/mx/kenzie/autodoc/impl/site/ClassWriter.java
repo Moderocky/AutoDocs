@@ -3,13 +3,13 @@ package mx.kenzie.autodoc.impl.site;
 import mx.kenzie.autodoc.api.controller.Element;
 import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.schema.WritableElement;
+import mx.kenzie.autodoc.internal.ScratchReader;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
+import java.util.HashMap;
 import java.util.Map;
 
 @Description("""
@@ -18,9 +18,16 @@ import java.util.Map;
 public class ClassWriter implements WritableElement, Element, ElementWriter {
     
     protected final Class<?> target;
+    protected final Map<AnnotatedElement, String> javadocs;
     
     public ClassWriter(Class<?> target) {
         this.target = target;
+        this.javadocs = new HashMap<>();
+    }
+    
+    public ClassWriter(Class<?> target, File root) {
+        this.target = target;
+        this.javadocs = ScratchReader.find(target, root);
     }
     
     @Override
@@ -49,7 +56,7 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
         }).printTo(stream);
         this.startMainArea(stream);
         this.write(stream, Utils.getWarnings(target));
-        this.write(stream, Utils.getDescription(target));
+        this.write(stream, Utils.getDescription(target, javadocs));
         this.write(stream, "\n</div>");
         new RightBox() {
             @Override
@@ -92,7 +99,7 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
             this.write(stream, "<h2 class=\"border-bottom pb-2 mb-0\">Fields</h2>");
             this.write(stream, "<br />");
             for (final Field field : fields) {
-                final FieldWriter writer = new FieldWriter(field);
+                final FieldWriter writer = new FieldWriter(field, javadocs);
                 writer.write(stream);
             }
             this.write(stream, "<hr />");
@@ -106,7 +113,7 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
             this.write(stream, "<h2 class=\"border-bottom pb-2 mb-0\">Methods</h2>");
             this.write(stream, "<br />");
             for (final Method method : methods) {
-                final MethodWriter writer = new MethodWriter(method);
+                final MethodWriter writer = new MethodWriter(method, javadocs);
                 writer.write(stream);
             }
             this.write(stream, "<br />");
@@ -119,7 +126,7 @@ public class ClassWriter implements WritableElement, Element, ElementWriter {
             this.write(stream, "<h2 class=\"border-bottom pb-2 mb-0\">Constructors</h2>");
             this.write(stream, "<br />");
             for (final Constructor<?> constructor : constructors) {
-                final ConstructorWriter writer = new ConstructorWriter(constructor);
+                final ConstructorWriter writer = new ConstructorWriter(constructor, javadocs);
                 writer.write(stream);
             }
             this.write(stream, "<br />");

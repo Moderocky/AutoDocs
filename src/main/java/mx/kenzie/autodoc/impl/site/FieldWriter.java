@@ -5,6 +5,7 @@ import mx.kenzie.autodoc.api.schema.WritableElement;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
@@ -12,9 +13,11 @@ import java.util.Map;
 public class FieldWriter implements WritableElement, Element, ElementWriter {
     
     protected final Field target;
+    protected final Map<AnnotatedElement, String> javadocs;
     
-    public FieldWriter(Field target) {
+    public FieldWriter(Field target, Map<AnnotatedElement, String> javadocs) {
         this.target = target;
+        this.javadocs = javadocs;
     }
     
     @Override
@@ -46,7 +49,7 @@ public class FieldWriter implements WritableElement, Element, ElementWriter {
             }
         }).printTo(stream);
         this.startMainArea(stream);
-        this.write(stream, Utils.getDescription(target));
+        this.write(stream, Utils.getDescription(target, javadocs));
         this.write(stream, "</div>");
         // side block
         new RightBox() {

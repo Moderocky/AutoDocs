@@ -104,7 +104,7 @@ public class CreatePages {
                 }\s
                 ```
                 """
-            , new File("docs/"), new File("target/AutoDocs.jar"), "mx.kenzie.autodoc.api", "mx.kenzie.autodoc.impl", "mx.kenzie.autodoc.AutoDocs");
+            , new File("docs/"), new File("target/AutoDocs.jar"), new File("src/main/java/"), "mx.kenzie.autodoc.api", "mx.kenzie.autodoc.impl", "mx.kenzie.autodoc.AutoDocs");
     }
     
 }

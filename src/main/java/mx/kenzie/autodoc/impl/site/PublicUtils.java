@@ -9,12 +9,12 @@ import org.commonmark.renderer.html.HtmlRenderer;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
-
+/**
+ * Important utilities for generating HTML names, stubs
+ * and useful code.
+ */
 public class PublicUtils {
     
     @GenerateExample
@@ -134,9 +134,10 @@ class Utils extends PublicUtils {
         return target.isAnnotationPresent(Ignore.class);
     }
     
-    static String getDescription(AnnotatedElement target) {
+    static String getDescription(AnnotatedElement target, Map<AnnotatedElement, String> javadocs) {
+        if (javadocs.containsKey(target)) return Utils.markDown(javadocs.get(target));
         if (!target.isAnnotationPresent(Description.class)) return "No description is available for this element.";
-        final Description description = target.getDeclaredAnnotation(Description.class);
+        final Description description = target.getAnnotation(Description.class);
         if (description == null) return "No description is available for this element.";
         return switch (description.mode()) {
             case MARKDOWN -> Utils.markDown(description.value());
