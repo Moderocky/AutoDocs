@@ -2,11 +2,7 @@ package mx.kenzie.autodoc;
 
 import mx.kenzie.autodoc.api.note.Ignore;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.*;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,15 +73,16 @@ public class DocBuilder implements Closeable, AutoCloseable {
         return this;
     }
     
-    private List<Class<?>> getClasses(String namespace) throws IOException {
+    protected List<Class<?>> getClasses(String namespace) throws IOException {
         final List<Class<?>> list = new ArrayList<>();
-        final URL jar = this.source();
-        try (final ZipInputStream zip = new ZipInputStream(jar.openStream())) {
+        final InputStream stream = this.source();
+        try (final ZipInputStream zip = new ZipInputStream(stream)) {
             while (true) {
                 final ZipEntry entry = zip.getNextEntry();
                 if (entry == null) break;
                 if (entry.isDirectory()) continue;
-                final String name = entry.getName();
+                final String name = entry.getName().replace('/', '.');
+                if (!name.endsWith(".class")) continue;
                 if (name.startsWith(namespace)) try {
                     final Class<?> data = Class.forName(name
                         .substring(0, name.length() - 6)
@@ -100,12 +97,12 @@ public class DocBuilder implements Closeable, AutoCloseable {
         return list;
     }
     
-    private URL source() throws MalformedURLException {
+    protected InputStream source() throws IOException {
         if (jar != null) {
-            return jar.toURI().toURL();
+            return new FileInputStream(jar);
         } else {
             final CodeSource source = AutoDocs.class.getProtectionDomain().getCodeSource();
-            return source.getLocation();
+            return source.getLocation().openStream();
         }
     }
     

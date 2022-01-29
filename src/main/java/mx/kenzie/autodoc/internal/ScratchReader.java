@@ -81,8 +81,18 @@ public class ScratchReader {
     }
     
     protected String handleComment(String comment) {
-        return String.join(System.lineSeparator(), comment.lines()
-            .map(string -> string.replaceFirst("^\\s*\\*\\s*", "").trim()).toList());
+        final StringBuilder builder = new StringBuilder();
+        for (final String line : comment.lines().toList()) {
+            try {
+                String thing = line.replaceFirst("^\\s*\\*\\s*", "").trim();
+                if (thing.equals("<p>")) continue;
+                builder.append(thing);
+            } catch (Throwable ignore) {
+                builder.append(line);
+            }
+            builder.append(System.lineSeparator());
+        }
+        return builder.toString();
     }
     
     enum TypeMatcher {
@@ -97,7 +107,7 @@ public class ScratchReader {
                 return null;
             }
         },
-        METHOD(Pattern.compile("^(?<type>\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)\\s+(?<name>\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)\\s*\\(" +
+        METHOD(Pattern.compile("^(?<type>\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*(?:\\s*<.+>)?)\\s+(?<name>\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)\\s*\\(" +
             "(?<params>[^)]*)" +
             "\\)")) {
             @Override
